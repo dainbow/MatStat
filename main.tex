@@ -727,4 +727,328 @@
   \]
 \end{theorem}
 
+\section{Сравнение оценок, функция потерь и функция риска}
+\begin{definition}
+  Борелевская неотрицательная функция $g(x,\,y)$ называется \textbf{функцией потерь}.
+
+  Если $\theta^*(X)$ -- оценка, то $g(\theta^*(X),\, \theta)$ называется величиной потерь.
+\end{definition}
+
+\begin{definition}
+  Если задана функция потерь $g$, то \textbf{функцией риска} оценки $\theta^*$ называется $R(\theta^*,\, \theta) = \mathbb{E}_\theta g(\theta^*,\, \theta)$
+\end{definition}
+
+\begin{definition}
+  Оценка $\theta^*(X)$ лучше оценки $\hat{\theta}(X)$ в \textbf{равномерном подходе}, если 
+  \[
+    \forall \theta \in \Theta :\: R(\theta^*(X),\, \theta) \leq R(\hat{\theta}(X),\, \theta)
+  \]
+  и для некоторого $\theta$ неравенство строгое.
+\end{definition}
+
+\begin{definition}
+  Оценка $\theta^*(X)$ называется наилучшей в \textbf{минимаксном подходе}, если 
+  \[
+    \sup_{\theta \in \Theta}R(\theta^*(X),\, \theta) = \inf_{\hat{\theta}}\sup_{\theta \in \Theta}R(\hat{\theta}(X),\, \theta)
+  \]
+  то есть у $\theta^*(X)$ наименьший максимум функции риска.
+\end{definition}
+
+\begin{definition}
+  Предположим, что на $\Theta$ задано некоторое \textbf{априорное} распределение вероятности $Q$ и $\theta$ выбирается случайно в соответствии с распределением $Q$.
+
+  Если $\hat{\theta}(X)$ -- оценка $\theta$ и $R(\hat{\theta},\, \theta)$ -- её функция риска, тогда 
+  \[
+    R(\hat{\theta}(X)) = \mathbb{E}_\theta R(\hat{\theta}(X),\, \theta) = \int_\Theta R(\hat{\theta}(X),\, t)Q(dt)
+  \]
+
+  Оценка $\theta^*(X)$ называется наилучшей в \textbf{байесовском} подходе, если
+  \[
+    R(\theta^*(X)) = \min_{\hat{\theta}}R(\hat{\theta}(X))
+  \]
+\end{definition}
+
+\begin{definition}
+  Пусть $\hat{\theta}_1,\, \hat{\theta}_2$ -- две асимптотически нормальных оценки параметра $\theta$ с дисперсиями $\sigma_1^2(\theta),\, \sigma_2^2(\theta)$. 
+
+  Оценка $\hat{\theta}_1$ лучше $\hat{\theta}_2$ в \textbf{асимптотическом подходе}, если
+  \[
+    \forall \theta \in \Theta :\: \sigma_1^2(\theta) \leq \sigma_2^2(\theta)
+  \]
+\end{definition}
+
+\section{Понятие плотности в дискретном случае}
+\begin{definition}
+  \textbf{Считающей мерой} $\mu$ на $\mathbb{Z}$ называется функция $\mu :\: \mathcal{B}(\mathbb{R}) \to \mathbb{Z}_+ \cup \{+\infty\}$, определённая по правилу
+  \[
+    \mu(B) = \sum_{k \in \mathbb{Z}} \mathbb{I}\{k \in B\}
+  \]
+\end{definition}
+
+\begin{definition}
+  Интегралом по считающей мере от функции $f(x)$ называется 
+  \[
+    \int_\mathbb{R}f(x)\mu(dx) = \sum_{k \in \mathbb{Z}}f(k)
+  \]
+  если ряд в правой части сходится абсолютно.
+\end{definition}
+
+\begin{definition}
+  Пусть $\xi$ -- дискретная случайная величина, принимающая значения в $\mathbb{Z}$. Её плотностью относительно считающей меры $\mu$ называется функция
+  \[
+    p(x) = P(\xi = x),\, x \in \mathbb{Z}
+  \]
+\end{definition}
+
+\begin{note}
+  Всюду далее, когда говорим о плотности, считаем, что либо это обычная плотность в абсолютно непрерывном случае, либо это плотность в дискретном случае по считающей мере на $\mathbb{Z}^n$.
+\end{note}
+
+\begin{definition}
+  Пусть $X$ -- наблюдение из неизвестного распределения $P \in \{P_\theta,\, \theta \in \Theta\}$, причём $\forall \theta \in \Theta :\: p_\theta(x)$ имеет плотность $p_\theta(x)$ по одной и той же мере $\mu$.
+
+  В этом случае семейство $\{P_\theta,\, \theta \in \Theta\}$ называется \textbf{доминируемым} относительно $\mu$.
+\end{definition}
+
+\begin{definition}
+  Случайная величина $u_\theta(x) = \frac{\partial}{\partial \theta}L_{p_\theta}(x)$ называется \textbf{вкладом} наблюдения $X$, и функция $I_X(\theta) = \mathbb{E}_\theta u_\theta^2(X)$ называется \textbf{количеством информации} о параметре $\theta$ содержащемся в $X$ (информация по Фишеру).
+\end{definition}
+
+\begin{note}
+  Будем считать, что выполнено условие \textbf{регулярности}:
+  \begin{enumerate}
+    \item $\Theta \subset \mathbb{R}$ -- открытый интервал
+    \item Множество $A = \{x \in \mathcal{X} \:\vert\: p_\theta(x) > 0\}$ не зависит от $\theta$.
+    \item Для $\forall$ статистики $S(X)$ с условием $\mathbb{E}_\theta S^2(X) < +\infty$ выполнено $\forall \theta$ выполнено 
+    \[
+      \frac{\partial}{\partial\theta}\int_AS(x)p_\theta(x)\mu(dx) = \int_AS(x)\frac{\partial}{\partial \theta}p_\theta(x)\mu(dx)
+    \]
+    Левая часть это $\frac{\partial}{\partial\theta}\mathbb{E}_\theta S(X)$, а правая часть
+    \[
+      \int_AS(x)\frac{\partial}{\partial \theta}p_\theta(x)\frac{1}{p_\theta(x)}p_\theta(x)\mu(dx) = \mathbb{E}_\theta S(X)\frac{\partial}{\partial\theta}\ln p_\theta(X) = \mathbb{E}_\theta S(X)u_\theta(X)
+    \]
+    \item $\forall \theta \in \Theta:\:0 < I_X(\theta) < +\infty$
+  \end{enumerate}
+\end{note}
+
+\begin{theorem}
+  Неравенство Рао-Крамера.
+
+  Пусть выполнено условие регулярности и $\hat{\theta}(X)$ -- несмещённая оценка $\tau(\theta)$ с условием 
+  \[
+    \forall \theta \in \Theta:\:\mathbb{E}_\theta(\hat{\theta}(X))^2 < +\infty
+  \]
+  Тогда
+  \[
+    \mathbb{V}_\theta\hat{\theta}(X) \geq \frac{(\tau'(\theta))^2}{I_X(\theta)}
+  \]
+\end{theorem}
+
+\begin{proof}
+  В силу условия 3, при $S(X) = 1$ имеем
+  \[
+    \frac{\partial}{\partial\theta}\mathbb{E}_\theta S(X) = \frac{\partial}{\partial\theta}1 = \mathbb{E}_\theta u_\theta(X) = 0
+  \]
+  Также в силу условия 3, при $S(X) = \hat{\theta}(X)$ имеем
+  \[
+    \tau'(\theta) = \mathbb{E}_\theta\hat{\theta}(X)u_\theta(X)
+  \]
+  Умножим первое равенство на $-\tau(\theta)$ и сложим со вторым:
+  \[
+    \tau'(\theta) = \mathbb{E}(\hat{\theta} - \tau(\theta))u_\theta(X)
+  \]
+  Возведём обе части в квадрат и применим КБШ:
+  \[
+    (\tau'(\theta))^2 \leq \left(\mathbb{E}_\theta(\hat{\theta} - \tau(\theta))^2\right)\cdot\left(\mathbb{E}_\theta u_\theta^2(X)\right) = \mathbb{V}_\theta\hat{\theta}\cdot I_X(\theta)
+  \]
+\end{proof}
+
+\begin{definition}
+  Если в неравенстве Рао-Крамера для оценки $\hat{\theta}(X)$ достигается равенство, то $\hat{\theta}(X)$ называется \textbf{эффективной}.
+\end{definition}
+
+\begin{theorem}
+  Критерий эффективности.
+
+  В условиях регулярности $\hat{\theta}(X)$ эффективная для $\tau(\theta) \Leftrightarrow \hat{\theta}(X)$ -- линейная функция от $u_\theta(X)$ вида $\hat{\theta} - \tau(\theta) = c(\theta)u_\theta(X)$.
+
+  Причём последнее равенство может быть выполнено $\Leftrightarrow c(\theta) = \frac{\tau'(\theta)}{I_X(\theta)}$
+\end{theorem}
+
+\begin{proof}
+  Пусть $\hat{\theta}$ -- эффективная для $\tau(\theta) \Rightarrow \tau'(\theta) = \mathbb{E}(\hat{\theta} - \tau(\theta))u_\theta(X)$. А мы знаем, что равенство в КБШ достигается $\Leftrightarrow (\hat{\theta} - \tau(\theta))$ и $u_\theta(X)$ линейно зависимы:
+  \[
+    \theta(\theta) + \beta(\theta)(\hat{\theta} - \tau(\theta)) + \gamma(\theta)u_\theta(X) = 0
+  \]
+  Матожидания рассматриваемых величин равны нулю $\Rightarrow \alpha(\theta) \equiv 0$.
+
+  Можем поделить обе части на $\gamma(\theta) \neq 0$, это верно ведь иначе
+  \[
+    \mathbb{V}_\theta\beta(\theta)u_\theta(X) = 0 \Rightarrow \beta = 0 \Rightarrow\bot
+  \]
+  То есть $\hat{\theta} - \tau(\theta) = r(\theta)u_\theta(X)$.
+
+  Обратно, пусть $\hat{\theta} - \tau(\theta) = c(\theta)u_\theta(X) \Rightarrow \hat{\theta} = \tau(\theta) + c(\theta)u_\theta(X) \Rightarrow \hat{\theta}$ -- несмещённая оценка $\tau(\theta)$. Умножим обе части на $u_\theta(X)$ и берём матож:
+  \[
+    \tau'(\theta) = \mathbb{E}_\theta(\hat{\theta} - \tau(\theta))u_\theta(X) = \mathbb{E}_\theta c(\theta)u^2_\theta(X) = c(\theta)I_X(\theta)
+  \]
+\end{proof}
+
+\begin{note}
+  Эффективная оценка $\tau(\theta)$ -- наилучшая оценка $\tau(\theta)$ в классе несмещённых $L_2$ оценок в равномерном подходе с квадратичной функцией потерь.
+\end{note}
+
+\section{Экспоненциальные семейства распределений}
+\begin{definition}
+  Пусть $\theta = (\theta_1,\,\cdots,\,\theta_k)$
+
+  \textbf{Экспоненциальным семейством} распределений называют все распределения, обобщённая плотность которых имеет вид
+  \[
+    h(x)\exp\left(\sum_{i = 1}^ka_i(\theta)T_i(x) + V(\theta)\right)
+  \]
+  и где $a_0(\theta) \equiv 1,\, a_1(\theta),\,\cdots,\,a_k(\theta)$ линейно независимы на $\Theta$.
+\end{definition}
+
+\begin{note}
+  Проверим, существует ли эффективная оценка, если семейство экспоненциальное:
+  \[
+    f_\theta(x) = \prod_{i = 1}^np_\theta(x_i);\;\;\;\; p_\theta(x_i) = h(x_i)e^{a(\theta)T(x_i) + V(\theta)}
+  \]
+  Тогда распишем вклад
+  \[
+    u_\theta(X) = \frac{\partial}{\partial\theta}\ln f_\theta(x) = \frac{\partial}{\partial\theta}(a(\theta)\sum_{i = 1}^nT(x_i) + nV(\theta)) = a'(\theta)\sum_{i = 1}^nT(x_i) + nV'(\theta)
+  \]
+  Работаем в предположении $T \neq const$, так как иначе
+  \[
+    p_\theta(x) = h(x)e^{b(\theta)} \Rightarrow \int_\mathcal{X}p_\theta(x)d\mu = 1 \Rightarrow b(\theta) = const \Rightarrow p_\theta(x) \text{ не зависит от }\theta
+  \]
+  Пусть также $a'(\theta) \neq 0$, тогда
+  \[
+    \frac{1}{na'(\theta)}u_\theta(x) = \frac{\sum_{i = 1}^n T(x_i)}{n} - \frac{-V'(\theta)}{a'(\theta)}
+  \]
+  По критерию эффективности получаем, что $T^*(X) = \frac{\sum_{i = 1}^n T(x_i)}{n}$ является эффективной оценкой для $\tau(\theta) = \frac{-V'(\theta)}{a'(\theta)}$
+
+  Обратно, пусть $\exists$ эффективная оценка $T$ для $\tau(\theta)$, пусть $\forall \theta:\: \tau'(\theta) \neq 0$. Значит достигается равенство в Рау-Крамера:
+  \[
+    \exists \tau'(\theta) < +\infty :\: \mathbb{V}_\theta\hat{\theta} = \frac{(\tau'(\theta))^2}{I_X(\theta)} < +\infty \Rightarrow\hat{\theta} \in L_2
+  \]
+  Значит
+  \[
+    \forall \theta :\: T(X) - \tau(\theta) = c(\theta)u_\theta(x) = \frac{\tau'(\theta)}{I_X(\theta)}u_\theta(X) 
+  \]
+  Выразив вклад, получим
+  \[
+    \frac{\partial}{\partial\theta}\ln f_\theta(X) = \frac{T(X) - \tau(\theta)}{c(\theta)}
+  \]
+  Проинтегрируем, предполагая корректность:
+  \[
+    \ln f_\theta(X) = \int\frac{T(X) - \tau(\theta)}{c(\theta)}d\theta + g(X)
+  \]
+  Возведём экспоненту в обе части равенства и получим, что правдоподобие имеет нужный нам вид. Но как перейти от произведения плотностей с плотности определённого $X_i$? Зафиксируем остальные $X_j,\, j \neq i$ из носителя $A$ и заметим, что вид остался экспоненциальным.
+\end{note}
+
+\section{Достаточные статистики}
+\begin{definition}
+  Статистика $T(X)$ называется \textbf{достаточной} для параметра $\theta$, если 
+  \[
+    P_\theta(X \in B \:\vert\: T(X) = t)
+  \]
+  не зависит от $\theta$.
+\end{definition}
+
+\begin{theorem}
+  Критерий факторизации Неймана-Фишера.
+
+  Пусть $\{P_\theta,\, \theta \in \Theta\}$ -- доминирующее семейство. Статистика $T$ является достаточной для параметра $\theta \Leftrightarrow$ функция правдоподобия $f_\theta(X)$ представима в виде
+  \[
+    f_\theta(X) = \psi(T(X),\, \theta)h(X)
+  \]
+  где функции $\psi,\, h$ неотрицательны, $\psi(t,\, \theta)$ измерима по $t$ и $h$ измерима по $X$.
+\end{theorem}
+
+\begin{proof}
+  Для дискретного случая.
+
+  То есть $f_\theta(x) = P_\theta(X = x)$. Пусть $f_\theta(X) = \psi(S(X),\, \theta)h(X) \Rightarrow$
+  \[
+    P_\theta(X = x \:\vert\: T(X) = t) = \frac{P_\theta(X = x,\, T(X) = t)}{P_\theta(T(X) = t)} = \begin{cases}
+      0,\, T(X) \neq t\\
+      \frac{P_\theta(X = x)}{\sum_{y :\: T(y) = t}P_\theta(X = y)} = \frac{\psi(T(X),\, \theta)h(X)}{\sum_{y :\: T(y) = t} \psi(T(y),\, \theta)h(y)}
+    \end{cases} 
+  \]
+  После сокращения имеем
+  \[
+    P_\theta(X = x \:\vert\: T(X) = t) = \begin{cases}
+      0,\, T(X) \neq t\\
+      \frac{h(X)}{\sum_{y :\: T(y) = t} h(y)},\, T(X) = t
+    \end{cases}
+  \]
+  То есть получили что-то, независящее от $\theta$, что подходит под определение достаточной статистики.
+
+  Обратно, пусть статистика $T$ достаточная:
+  \begin{align*}
+    f_\theta(x) = P_\theta(X = x) = P_\theta(X = x,\, T(X) = T(x)) =\\ 
+    P_\theta(T(X) = T(x))\cdot P_\theta(X = x \:\vert\: T(X) = T(x)) = \psi(T(x),\, \theta)h(x)
+  \end{align*}
+\end{proof}
+
+\begin{lemma}
+  Пусть $\eta \in L_1$, тогда $\mathbb{E}(\mathbb{E}(\eta \:\vert\: \xi) - \mathbb{E}\eta)^2 \leq \mathbb{V}\eta$.
+
+  Более того, если $\eta \in L_2$, то равенство в неравенстве выше достигается $\Leftrightarrow \eta = \mathbb{E}(\eta\:\vert\: \xi) \Leftrightarrow \eta$ является $\xi$-измеримой.
+\end{lemma}
+
+\begin{proof}
+  Докажем лишь для $L_2$.
+
+  Пусть $\phi = \mathbb{E}(\eta \:\vert\: \xi)$. Тогда по неравенству Йенсена
+  \[
+    \phi^2 = (\mathbb{E}(\eta\:\vert\:\xi))^2 \leq \mathbb{E}(\eta^2 \:\vert\: \xi)
+  \]
+  Навесив матожидание, получим $\mathbb{E}\phi^2 \leq \mathbb{E}\eta^2 < +\infty$. Далее,
+  \[
+    \mathbb{V}\eta = \mathbb{E}(\eta - \mathbb{E}\eta)^2 = \mathbb{E}(\eta - \phi + \phi - \mathbb{E}\eta)^2 = \mathbb{E}(\eta - \phi)^2 + \mathbb{E}(\phi - \mathbb{E}\eta)^2 + 2\mathbb{E}(\eta - \phi)(\phi - \mathbb{E}\eta)
+  \]
+  Распишем последнее слагаемое:
+  \[
+    \mathbb{E}(\mathbb{E}((\eta - \phi)(\phi - \mathbb{E}\eta) \:\vert\: \xi)) = \mathbb{E}(\phi - \mathbb{E}\eta)\mathbb{E}((\eta - \phi) \:\vert\: \xi) = 0
+  \]
+  Заметим, что мы всё доказали: оценим первое слагаемое нулём снизу и всё получится.
+\end{proof}
+
+\begin{theorem}
+  Колмогорова-Блэкуэлла-Рао.
+
+  Пусть $T(X)$ -- достаточная статистика для $\theta$ и пусть $d(X)$ -- несмещённая для $\tau(\theta)$, положим $\phi(T) = \mathbb{E}_\theta(d(X) \:\vert\: T)$. Тогда $\phi(T)$ зависит от выборки только через $T(X)$ (и не зависит от $\theta$), причём
+  \[
+    \mathbb{E}_\theta\phi(T) = \tau(\theta);\;\;\;\; \mathbb{V}_\theta\phi(T) \leq \mathbb{V}_\theta d(X)
+  \]
+\end{theorem}
+
+\begin{proof}
+  Рассмотрим $\phi(T) := \mathbb{E}_\theta(d(X) \:\vert\: T)$. Распределение $X$ (при фиксированном значении $T$) не зависит от $\theta \Rightarrow$ распределение $d(X)$ тоже не зависит $\Rightarrow \mathbb{E}_\theta(d(X) \:\vert\: T)$ является измеримой функцией только от $T$ (и, как функция, не зависит от $\theta$) $\Rightarrow \phi(T)$ действительно статистика.
+
+  Очевидно, что $d(X)$ -- несмещённая $\Rightarrow \phi$ тоже (св-во УМО).
+  \begin{align*}
+    \mathbb{V}_\theta\phi(T) = \mathbb{E}_\theta(\phi - \mathbb{E}_\theta\phi)^2 = \mathbb{E}_\theta(\mathbb{E}_\theta(d\:\vert\:T) - \mathbb{E}_\theta d)^2 \overset{\text{по лемме}}{\leq} \mathbb{V}_\theta d(X)
+  \end{align*}
+  Если $d \in L_2 \Rightarrow$ неравенство переходит в равенство $\Leftrightarrow d = \phi\Leftrightarrow d(X)$ -- борелевская функция от $T$.
+\end{proof}
+
+\section{Полные статистики, оптимальные оценки}
+\begin{definition}
+  Наилучшая оценка $T(\theta)$ в классе несмещённых оценок в равномерном подходе с квадратичной функцией потерь называется \textbf{оптимальной} оценкой.
+\end{definition}
+
+\begin{definition}
+  Статистика $S(X)$ называется \textbf{полной} для параметра $\theta$, если из условия 
+  \[
+    \forall \theta \in \Theta :\: \mathbb{E}_\theta f(S(X)) = 0
+  \]
+  следует, что
+  \[
+    f(S(X)) \overset{P_\theta\text{ п.н.}}{=} 0
+  \]
+\end{definition}
+
 \end{document}
