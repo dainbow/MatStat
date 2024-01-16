@@ -318,13 +318,27 @@
   \]
 \end{proof}
 
-\begin{note}
+\begin{proposition}
   Построим модель $n$ независимых повторений нашего эксперимента.
 
   Рассмотрим $\mathcal{X}^n = \mathcal{X} \times \cdots \times \mathcal{X}$ и $\mathcal{B}_\mathcal{X}^n = \mathcal{B}(\mathcal{X}^n) = \sigma(B_1\times\cdots\times B_n),\, B_i \in \mathcal{B}_{\mathcal{X}}$, а $P^n = P \otimes\cdots\otimes P$ -- мера на $(\mathcal{X}^n,\, \mathcal{B}_\mathcal{X}^n)$, такая что $P^n(B_1\times\cdots\times B_n) = P(B_1)*\cdots* P(B_n)$.
 
-  Для этого рассмотрим тождественное отображение $X :\: \mathcal{X}^n \to \mathcal{X}^n$. Его $i$-я компонента $X_i$ является случайным вектором с распределением $P$, причём $X_1,\,\cdots,\,X_n$ независимы в совокупности.
-\end{note}
+  Для этого рассмотрим тождественное отображение $X :\: \mathcal{X}^n \to \mathcal{X}^n$. Его $i$-я компонента $X_i$ (по сути $i$-й проектор) является случайным вектором с распределением $P$, причём $X_1,\,\cdots,\,X_n$ независимы в совокупности.
+\end{proposition}
+
+\begin{proof}
+  Фиксируем $i$, рассмотрим вероятность
+  \begin{align*}
+    P^n(X_i \in B_i) = P^n((x_1,\,\cdots,\,x_n) \in \mathcal{X} :\: X_i(x_1,\,\cdots,\,x_n) \in B_i) =
+    P^n((x_1,\,\cdots,\,x_n) \in \mathcal{X} :\: x_i \in B_i) =\\ 
+    P^n(\mathcal{X}\times\cdots\times B_i\times\cdots\times \mathcal{X}) = 1*\cdots*P(B_i)*\cdots*1
+  \end{align*}
+  Теперь докажем независимость:
+  \begin{align*}
+    P^n(X_1 \in B_1,\,\cdots,\,X_n\in B_n) = P^n((x_1,\,\cdots,\,x_n) \in \mathcal{X} :\: X_1(x_1,\,\cdots,\,x_n) \in B_1,\,\cdots) = \\
+    P^n(B_1\times\cdots\times B_n) = \prod_{i = 1}^nP(B_i) = \prod_{i = 1}^nP^n(X_i \in B_i)
+  \end{align*}
+\end{proof}
 
 \begin{definition}
   Совокупность $X = (X_1,\,\cdots,\,X_n)$ независимых одинаково распределённых случайных величин (или векторов) с распределением $P$ называется \textbf{выборкой} размера $n$ из распределения $P$.
@@ -339,7 +353,7 @@
 \end{note}
 
 \begin{definition}
-  Тройка $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, \mathcal{P})$ называется вероятностно-статистической моделью.
+  Тройка $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, \mathcal{P})$ называется \textbf{вероятностно-статистической моделью}.
 \end{definition}
 
 \begin{note}
@@ -372,6 +386,22 @@
   Функция $F_n^*(x) = \frac{\sum_{i = 1}^n \mathbb{I}\{X_i \leq x\}}{n}$ называется \textbf{эмпирической функцией распределения}.
 \end{definition}
 
+\begin{proposition}
+  Пусть $X_1,\,\cdots,\,X_n$ -- выборка на вероятностном пространстве $(\Omega,\,\mathcal{F},\, P)$ из распределения $P_X$. Пусть $B \in \mathcal{B}(\mathbb{R}^m)$. Тогда
+  \[
+    P_n^*(B) \overset{\text{п.н.}}{\to} P_X(B),\, n \to +\infty
+  \]
+\end{proposition}
+
+\begin{proof}
+  Заметим, что $\mathbb{I}\{X_i \in B\}$ -- независимые, одинаково распределённые величины.
+
+  Тогда мы можем применить УЗБЧ:
+  \[
+    P_n^*(B) = \frac{s_n}{n } \overset{\text{п.н.}}{\to}\mathbb{E}\mathbb{I}\{X_1 \in B\} = P_X(B)
+  \]
+\end{proof}
+
 \begin{theorem}
   Гливенко-Кантелли.
 
@@ -392,7 +422,7 @@
 
   Фиксируем $N \in \mathbb{N}$, тогда $\forall k \in \{1,\, \cdots,\, N - 1\}$ положим 
   \[
-    X_{N,\, K} = \inf\{x \in \mathbb{R} \:\vert\: F(x) \geq \frac{K}{N}\}
+    X_{N,\, K} = \inf\left\{x \in \mathbb{R} \:\vert\: F(x) \geq \frac{K}{N}\right\}
   \]
   Заметим, что это число конечно, а также определим $X_{N,\, 0} = -\infty,\, X_{N,\, N} = +\infty$.
 
@@ -412,11 +442,11 @@
   \[
     \sup_{x \in \mathbb{R}}\vert F_N^*(x) - F(x)\vert \leq \max_{0 \leq K \leq N - 1}\max(\vert F_n^*(X_{N,\, K + 1} - 0) - F(X_{N,\, K + 1} - 0)\vert,\, \vert F_n^*(X_{N,\, K}) - F(X_{N,\, K})\vert) + \frac{1}{N}
   \]
-  Из какого-то вспомогательного утверждения следует, что $F_n^*(y - 0) = P_n^*((-\infty,\, y)) \to P_X((-\infty,\, y)) = F(y - 0)$.
+  Из предыдущего утверждения следует, что $F_n^*(y - 0) = P_n^*((-\infty,\, y)) \to P_X((-\infty,\, y)) = F(y - 0)$.
 
   Теперь для $\varepsilon$ фиксируем $\frac{1}{N} < \varepsilon \Rightarrow$
   \[
-    \overline{\lim}_n \sup_{x \in \mathbb{R}}\vert F_N^*(x) - F(x)\vert \overset{\text{п.н.}}{<} \varepsilon
+    \overline{\lim}_N \sup_{x \in \mathbb{R}}\vert F_N^*(x) - F(x)\vert \overset{\text{п.н.}}{<} \varepsilon
   \]
   В силу произвольности $\varepsilon$ получаем требуемое.
 \end{proof}
