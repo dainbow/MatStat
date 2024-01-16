@@ -848,6 +848,28 @@
 \end{definition}
 
 \begin{definition}
+  Пусть $X$ -- наблюдение с неизвестным распределением $P \in \{P_\theta,\, \theta \in \Theta\}$, где семейство доминируемо относительно $\mu$ (значит, что либо все дискретные, либо все абсолютно непрерывные).
+
+  \textbf{Функцией правдоподобия} называют
+  \[
+    f_\theta(X) := p_\theta(X)
+  \]
+  где $p_\theta(X)$ -- плотность $p_\theta$ по мере $\mu$.
+\end{definition}
+
+\begin{example}
+  Пусть $X = (X_1,\,\cdots,\,X_n)$ -- выборка с плотностью $p_\theta(x)$, то $f_\theta(X) = \prod_{i = 1}^n p_\theta(X_i)$
+\end{example}
+
+\begin{definition}
+  Определим
+  \[
+    L_\theta(X) = \ln f_\theta(X)
+  \]
+  называется \textbf{логарифмической функцией правдоподобия}.
+\end{definition}
+
+\begin{definition}
   Случайная величина $u_\theta(x) = \frac{\partial}{\partial \theta}L_{p_\theta}(x)$ называется \textbf{вкладом} наблюдения $X$, и функция $I_X(\theta) = \mathbb{E}_\theta u_\theta^2(X)$ называется \textbf{количеством информации} о параметре $\theta$ содержащемся в $X$ (информация \textbf{по Фишеру}).
 \end{definition}
 
@@ -1238,5 +1260,190 @@
     P_\theta\left(\sqrt{n}\left\vert\frac{\hat{\theta}_n - \theta}{\sigma(\hat{\theta}_n)}\right\vert < u_{\frac{1 + \gamma}{2}}\right) \overset{n \to +\infty}{\to} \gamma
   \]
 \end{note}
+
+\section{Метод максимального правдоподобия}
+\begin{definition}
+  Пусть $X$ -- наблюдения с функцией правдоподобия $f_\theta(X)$, тогда оценкой параметра $\theta$ по \textbf{методу максимального правдоподобия} (ОМП) называется такая статистика $\hat{\theta}(X)$, что
+  \[
+    \hat{\theta}(X) = \text{argmax}_{\theta \in \Theta}f_\theta(X)
+  \]
+\end{definition}
+
+\begin{note}
+  Будем использовать новые условия регулярности:
+  \begin{enumerate}
+    \item $\{P_\theta,\, \theta \in \Theta\}$ -- параметрическое семейство доминируемое относительно меры $\mu$, причём $P_{\theta_1} \neq P_{\theta_2}$ при $\theta_1 \neq \theta_2$ и для $\forall \theta$ определена $P_\theta(X)$ -- плотность $P_\theta$ относительно меры $\mu$.
+    \item $A = \{x \in X :\: P_\theta(x) > 0\}$ не зависит от $\theta$
+    \item Наблюдение $X$ есть выборка из неизвестного распределения $p \in \{P_\theta,\, \theta \in \Theta\}$
+    \item $\Theta$ -- открытый интервал в $\mathbb{R}$ (возможно бесконечный)
+    \item Функция $p_\theta(x)$ непрерывно дифференцируемая по $\theta$ при всех $x \in A$.
+    \item $p_\theta(x)$ трижды непрерывно дифференцируема по $\theta \: \forall x \in A$.
+    \item Интеграл $\int_Ap_\theta(x)\mu(dx)$ трижды дифференцируем по $\theta$ под знаком интеграла.
+    \item $\mathbb{E}(\frac{\partial}{\partial\theta}\ln p_\theta(X_1))^2 = i(\theta) \in (0,\,+\infty)$
+    \item Выполняется
+    \[
+      \forall  \theta_0 \in \Theta \: \exists c > 0 \: \exists H(x) \: \forall \theta \in (\theta_0 - c,\, \theta_0 + c) \: \forall x \in A :\: \left\vert\frac{\partial^3}{\partial\theta^3}\ln p_\theta(x)\right\vert < H(x)
+    \]
+    причём $\mathbb{E}_{\theta_0}H(X_1) < +\infty$
+  \end{enumerate}
+\end{note}
+
+\begin{theorem}
+  Экстремальное свойство правдоподобия.
+  
+  Пусть выполнены условия регулярности 1-3. Тогда
+  \[
+    \forall \theta_0,\,\theta \in \Theta \: \theta_0 \neq \theta :\: P_{\theta_0}(f_{\theta_0}(X_1,\,\cdots,\,X_n) > f_\theta(X_1,\,\cdots,\,X_n)) \overset{n \to +\infty}{\to} 1
+  \]
+\end{theorem}
+
+\begin{proof}
+  Пусть $X_i \in A$. Заметим, что
+  \[
+    f_{\theta_0}(X_1,\,\cdots,\,X_n) > f_\theta(X_1,\,\cdots,\,X_n) \Leftrightarrow \frac{1}{n}\ln\frac{f_\theta(X_1,\,\cdots,\,X_n)}{f_{\theta_0}(X_1,\,\cdots,\,X_n)} < 0 \Leftrightarrow \frac{1}{n}\sum_{i = 1}^n\ln\frac{f_\theta(X_i)}{f_{\theta_0}(X_i)} < 0
+  \]
+  Хотим применить ЗБЧ, а для этого нужно
+  \[
+    \mathbb{E}_\theta\frac{f_\theta(X)}{f_{\theta_0}(X)} < 0
+  \]
+  то есть
+  \begin{align*}
+    \int_A\ln\frac{p_\theta(x)}{p_{\theta_0}(x)}p_{\theta_0}(x)dx = \int_A\ln\left(1 + \frac{p_\theta(x)}{p_{\theta_0}(x)} - 1\right)p_{\theta_0}(x)dx \leq\\
+    \int_A\left(\frac{p_\theta(x)}{p_{\theta_0}(x)} - 1\right)p_{\theta_0}(x) = \int_Ap_\theta(x)dx - \int_Ap_{\theta_0}(x)dx = 1 - 1 = 0 
+  \end{align*}
+  Причём равенство выполняется тогда и только тогда, когда
+  \[
+    \mu(x \in A :\: p_\theta(x) \neq p_{\theta_0}(x)) = 0
+  \]
+  что противоречит первому условию регулярности.
+\end{proof}
+
+\begin{corollary}
+  Если $\Theta$ конечно, то ОМП существует, единственная с вероятностью $\to 1$, и состоятельная
+\end{corollary}
+
+\begin{proof}
+  Максимум $f_\theta(X_1,\,\cdots,\,X_n)$ с ростом $n$ будет достигаться на истинном значении $\theta$ с вероятностью $\to 1$.
+
+  Почему вообще оценка измеримая?
+  \[
+    \{x :\: \text{argmax}\cdots = \theta_2\} = \{f_{\theta_1(x)} < f_{\theta_2}(x)\}\cap\{f_{\theta_3}(x) < f_{\theta_2}(x)\}\cap\cdots
+  \]
+  то есть конечное пересечение измеримых множеств.
+
+  Как проверить, что $\exists$ измеримая версия ОМП, если максимум может достигаться при разных $\theta$?
+
+  Если кандидатов несколько, то выберем с наименьшими номером. Тогда если введём $c_{i < j} = \{x :\: f_{\theta_i}(x) < f_{\theta_j}(x)\}$, то
+  \[
+    \{\hat{\theta} = \theta_1\} = \cap_{j \neq 1}c_{j \leq 1};\;\;\; \{\hat{\theta} = \theta_2\} = c_{2 > 1} \cap (\bigcap_{j \geq 3}c_{j \leq 2});\;\;\;\;\cdots
+  \]
+\end{proof}
+
+\begin{definition}
+  \textbf{Уравнением правдоподобия} называют
+  \[
+    \frac{\partial\ln f_\theta}{\partial\theta} = 0 \Leftrightarrow \frac{\partial f_\theta}{\partial\theta} = 0
+  \]
+\end{definition}
+
+\begin{theorem}
+  Аналог состоятельности ОМП.
+
+  Пусть выполняются условия регулярности 1-5 и пусть элементы выборки имеют распределение $P_{\theta_0}$. Тогда $\exists$ отображение $\hat{\theta}_n(X_1,\,\cdots,\,X_n,\,\theta_0)$ со значениями в $\Theta$:
+  \[
+    (P_{\theta_0})^*(\{\theta_n \text{ не решение уравнения правдоподобия}\}) \overset{n \to +\infty}{\to} 0
+  \]
+  и
+  \[
+    \forall \varepsilon > 0 :\: (P_{\theta_0})^*(\{\vert\hat{\theta}_n - \theta_0\vert > \varepsilon\}) \overset{n \to +\infty}{\to} 0
+  \]
+\end{theorem}
+
+\begin{proof}
+  Определим $\hat{\theta}_n$, фиксируя $X_1,\,\cdots,\,X_n$ из множества $A$.
+
+  Если у уравнения $\frac{\partial\ln f}{\partial\theta} = 0$ есть хотя бы $1$ корень, то возьмём ближайший корень к $\theta_0$ (в силу непрерывности $\frac{\partial f}{\partial \theta}$ такое возможно, так как предел последовательности корней сам является корнем).
+
+  Если же у уравнения нет корней, то доопределим $\hat{\theta}_n := \theta_0$.
+
+  Фиксируем $\varepsilon > 0$, что $[\theta_0 - \varepsilon,\, \theta_0 + \varepsilon] \subset \Theta$. Рассмотрим
+  \[
+    s_n(\theta_0,\, \varepsilon) = \{x :\: f_{\theta_0 - \varepsilon}(x_1,\,\cdots,\,x_n) < f_{\theta_0}(x_1,\,\cdots,\,x_n),\, f_{\theta_0}(\cdots) > f_{\theta_0 + \varepsilon}(\cdots)\}
+  \]
+  Но по предыдущей теореме мы можем сказать, что $P_{\theta_0}(s_n) \overset{n \to +\infty}{\to} 1$.
+
+  Далее, $\forall x \in s_n \exists$ точка $\tilde{\theta}_n$, в которой $f_\theta$ имеет локальный максимум $\Rightarrow f'(\tilde{\theta}_n) = 0$, причём $\tilde{\theta}_n \in U_\varepsilon(\theta_0)$.
+
+  А так как $\hat{\theta}_n$ -- ближайший к $\theta_0$ корень, то $\vert\hat{\theta}_n - \theta_0\vert < \varepsilon$.
+
+  Тогда $\{\hat{\theta}_n \text{ - не решение уравнения}\} \subset \{\mathcal{X}^n \setminus s_n\}$, навесив внешнюю меру, то получим первое неравенство из теоремы.
+
+  Теперь осталось заметить, что если у нас не выполненяется неравенство $\vert\hat{\theta}_n - \theta\vert > \varepsilon$, то мы точно не в $s_n$, а значит снова сможем оценить сверху мерой $(P_{\theta_0}^*)(\mathcal{X}^n \setminus s_n) \overset{n \to +\infty}{\to} 0$
+\end{proof}
+
+\begin{note}
+  Почему это почти состоятельность? Не проверяли измеримость $\hat{\theta}_n$ и всё равно $\hat{\theta}_n$ зависит от $\theta_0$.
+
+  Если корней несколько, то неясно, какой ближе к $\theta_0$.
+
+  Не факт, что корень -- глобальный максимум.
+
+  Корень существует не всегда.
+\end{note}
+
+\begin{corollary}
+  Пусть выполняются условия регулярности 1-5 и $\forall n \: \forall X_1,\,\cdots,\,X_n :\: \exists!$ решение $\hat{\theta}_n(X_1,\,\cdots,\,X_n)$ уравнения правдоподобия и пусть оно является измеримой функцией от выборки.
+
+  Тогда $\hat{\theta}_n$ -- состоятельная оценка $\theta$ и с вероятностью стремящейся к 1, $\hat{\theta}_n$ является ОМП.
+\end{corollary}
+
+\begin{proof}
+  Первая часть теоремы следует из предыдущей.
+
+  Как и ранее, с большой вероятностью выполняется
+  \[
+    f_{\theta_0 - \varepsilon}(x_1,\,\cdots,\,x_n) < f_{\theta_0}(x_1,\,\cdots,\,x_n),\, f_{\theta_0 + \varepsilon}(x_1,\,\cdots,\,x_n) < f_{\theta_0}(x_1,\,\cdots,\,x_n)
+  \]
+  На отрезке $[\theta_0 - \varepsilon,\, \theta_0 + \varepsilon]$ достигается максимум, это следует из непрерывности плотности, а это следует из предположения регулярности.
+
+  Этот максимум достигается на внутренней точке отрезка, которую обозначим $\theta_n^*$, и в ней $\frac{\partial}{\partial\theta}f = 0$, так как корень единственный, то $\hat{\theta}_n = \theta^*_n$.
+
+  То есть $\hat{\theta}_n$ -- локальный максимум, но пусть существует $\tilde{\theta}_n$, в которой значение $f$ не меньше, чем в $\hat{\theta}_n$. Но тогда между $\hat{\theta}_n,\, \tilde{\theta}_n$ будет точка, в которой занулится производная (локального минимума), что противоречит с единственностью корня уравнения правдоподобия.
+\end{proof}
+
+\section{Дополнительные свойства ОМП}
+\begin{theorem}
+  (б/д)
+
+  В условиях регулярности 1-9 $\forall$ состоятельной последовательности оценок $\hat{\theta}_n$, являющихся решениями уравнения правдоподобия, выполняется
+  \[
+    \forall \theta \in \Theta :\: \sqrt{n}(\hat{\theta}_n - \theta) \overset{d_\theta}{\to} \mathcal{N}\left(0,\, \frac{1}{i(\theta)}\right)
+  \]
+\end{theorem}
+
+\begin{theorem}
+  Бахадура. (б/д)
+
+  Пусть выполнены условия регулярности 1-9 и $\hat{\theta}_n(X_1,\,\cdots,\,X_n)$ -- асимптотически нормальная оценка $\theta$, причём $\sigma(\theta)$ непрерывна по $\theta$. Тогда 
+  \[
+    \forall \theta \in \Theta :\: \sigma^2(\theta) \geq \frac{1}{i(\theta)}
+  \]
+\end{theorem}
+
+\begin{definition}
+  Если $\sqrt{n}(\hat{\theta}_n(X_1,\,\cdots,\,X_n) - \theta) \overset{d_\theta}{\to} \mathcal{N}(0,\, \frac{1}{i(\theta)})$, то $\hat{\theta}_n$ называется \textbf{асимптотически эффективной} оценкой $\theta$.
+\end{definition}
+
+\begin{proposition}
+  Пусть выполняются условия регулярности для неравенство Крамера-Рао, $\hat{\theta}(X)$ -- эффективная оценка и равенство из критерия эффективности для $\hat{\theta}(X)$ выполняется $\forall x \: \forall \theta$. Тогда $\hat{\theta}(X)$ -- ОМП. 
+\end{proposition}
+
+\begin{proof}
+  Распишем это равенство
+  \[
+    \hat{\theta}(X) - \theta = \frac{1}{I_X(\theta)}\frac{\partial}{\partial\theta}\ln f_\theta(X)
+  \]
+  Тогда при $\theta < \hat{\theta}(X) :\: \frac{\partial}{\partial\theta}\ln f_\theta(X) > 0$, а при $\theta > \hat{\theta}(X) :\: \frac{\partial}{\partial\theta}\ln f_\theta(X) < 0 \Rightarrow \theta = \hat{\theta}(X)$ -- точка максимума $\ln f_\theta(X) \Rightarrow$ ОМП.
+\end{proof}
 
 \end{document}
