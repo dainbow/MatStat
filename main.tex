@@ -1446,4 +1446,111 @@
   Тогда при $\theta < \hat{\theta}(X) :\: \frac{\partial}{\partial\theta}\ln f_\theta(X) > 0$, а при $\theta > \hat{\theta}(X) :\: \frac{\partial}{\partial\theta}\ln f_\theta(X) < 0 \Rightarrow \theta = \hat{\theta}(X)$ -- точка максимума $\ln f_\theta(X) \Rightarrow$ ОМП.
 \end{proof}
 
+\section{Линейная регрессионная модель}
+В линейной модели наблюдения -- случайный вектор $X \in \mathbb{R}^n$, который представляется в виде $X = l + \varepsilon$, где $l$ неслучайный неизвестный вектор, а $\varepsilon$ -- случайный вектор (ошибка).
+
+Про $\varepsilon$ известно, что $\mathbb{E}\varepsilon = 0$ и $\mathbb{V}\varepsilon = \sigma^2I_n$, где $I_n$ -- единичная матрица $n \times n,\, \sigma^2 > 0$.
+
+Про $l$ известно, что $l \in L$ -- линейное подпространство $\mathbb{R}^n$.
+
+Задача: оценить неизвестные параметры $l,\, \sigma^2$.
+
+$L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z_k\}$ из вектор-столбцов, $\dim L = k$. Составим $Z = (z_1,\,\cdots,\,z_k)$, то есть $l = Z\theta$, где $\theta$ -- неизвестные координаты в базисе $z_1,\,\cdots,\,z_k$.
+
+То есть задача свелась к оценке $\theta,\, \sigma^2$, где $\theta \in \mathbb{R}^k$.
+
+\begin{definition}
+  $\hat{\theta}(X) = \text{argmin}_\theta\|X - Z\theta\|^2$ называется \textbf{оценкой наименьших квадратов} для $\theta$.
+\end{definition}
+
+\begin{lemma}
+  Решением задачи выше является
+  \[
+    \hat{\theta} = (Z^TZ)^{-1}Z^TX
+  \]
+\end{lemma}
+
+\begin{proof}
+  Вначале раскроем скалярку
+  \[
+    \|X - Z\theta\|^2 = \langle X - Z\theta,\, X - Z\theta\rangle = X^TX - 2X^TZ\theta + \theta^TZ^TZ\theta
+  \]
+  Функция минимальна в точке, где частные производные равны нулю.
+
+  Дифференцируем по $\theta_i \Rightarrow$
+  \[
+    -2(X^TZ)_i + 2(\theta^TZ^TZ)_i = 0
+  \]
+  Это должно выполняться для всех координат, то есть
+  \[
+    X^TZ = \theta^TZ^TZ \Rightarrow Z^TX = Z^TZ\theta \Rightarrow \hat{\theta} = (Z^TZ)^{-1}Z^TX
+  \]
+\end{proof}
+
+\begin{proposition}
+  Данная оценка обладает следующими свойствами:
+  \[
+    \mathbb{E}\hat{\theta} = \theta;\;\;\;\; \mathbb{V}\hat{\theta} = \sigma^2(Z^TZ)^{-1}
+  \]
+\end{proposition}
+
+\begin{proof}
+  Распишем матож:
+  \[
+    \mathbb{E}\hat{\theta} = \mathbb{E}(Z^TZ)^{-1}Z^TX = (Z^TZ)^{-1}Z^T\mathbb{E}X
+  \]
+  Но мы знаем, что $X = Z\theta + \varepsilon \Rightarrow \mathbb{E}X = Z\Theta \Rightarrow$ всё кроме $\theta$ сократится и доказали.
+
+  Теперь дисперсия:
+  \[
+    \mathbb{V}\hat{\theta} = \mathbb{V}(Z^TZ)^{-1}Z^TX = (Z^TZ)^{-1}Z^T\mathbb{V}X((Z^TZ)^{-1}Z^T)^T = \sigma^2I_n(Z^TZ)^{-1}
+  \]
+\end{proof}
+
+\begin{theorem}
+  (б/д)
+
+  Пусть $t = T\theta$ -- линейная вектор-функция от $\theta,\, T \in \text{Mat}_{m \times k}$. Тогда оценка $\hat{t} = T\hat{\theta}$ является оптимальной оценкой $t$ в классе линейных несмещённых оценок.
+\end{theorem}
+
+\begin{lemma}
+  \[
+    \mathbb{E}\|X - Z\theta\|^2 = (n - k)\sigma^2
+  \]
+\end{lemma}
+
+\begin{proof}
+  Так как $\mathbb{E}(X - Z\hat{\theta}) = 0$, то
+  \[
+    \mathbb{E}\|X - Z\theta\|^2 = \text{tr}\mathbb{V}(X - Z\hat{\theta})
+  \]
+  Распишем ковариационную матрицу:
+  \begin{align*}
+    \mathbb{V}(X - Z\hat{\theta}) = \mathbb{V}[(I_n - Z(Z^TZ)^{-1}Z^T)X]=(I_n - A)\mathbb{V}X(I_n - A)^T =\\
+    (I_n - A)\mathbb{V}X(I_n - A) = \sigma^2(I_n - 2A + A^2) = \sigma^2(I_n - A)
+  \end{align*}
+  Перейдём обратно к числам:
+  \begin{align*}
+    \mathbb{E}\|X - Z\theta\|^2 = \sigma^2\text{tr}(I_n - A) = \sigma^2(\text{tr}I_n - \text{tr}A) =\\
+    \sigma^2(n -  \text{tr}I_k) = \sigma^2(n - k)
+  \end{align*}
+\end{proof}
+
+\begin{corollary}
+  \begin{itemize}
+    \item $X - Z\hat{\theta} = \text{proj}_{L^\bot}X$
+    \item $\frac{\|X - Z\theta\|^2}{n - k} = \frac{\|\text{proj}_{L^\bot}X\|^2}{n - k}$ -- несмещённая оценка $\sigma^2$.
+  \end{itemize}
+\end{corollary}
+
+\begin{proof}
+  Из линала помним, что
+  \[
+    X = \text{proj}_LX + \text{proj}_{L^\bot}X
+  \]
+  Но по определению оценки $\text{proj}_LX = Z\hat{\theta}$.
+
+  Второй факт следует из предыдущей леммы.
+\end{proof}
+
 \end{document}
