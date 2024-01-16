@@ -65,25 +65,25 @@
 \newpage
 
 \section{Виды сходимости случайных векторов и связи между ними}
-Пусть $\xi,\, \{\xi_n\}_{n = 1}^\infty$ -- случайные векторы размерности.
+Пусть $\xi,\, \{\xi_n\}_{n = 1}^\infty$ -- случайные векторы размерности m.
 \begin{definition}
-  Сходимость почти наверное:
+  Сходимость \textbf{почти наверное}:
   \[
     \xi_n \overset{\text{п.н.}}{\to} \xi \Leftrightarrow P(\xi_n \to \xi) = 1
   \]
 \end{definition}
 
 \begin{definition}
-  Сходимость по вероятности:
+  Сходимость \textbf{по вероятности}:
   \[
     \xi_n \overset{\text{P}}{\to} \xi \Leftrightarrow \forall \varepsilon > 0 :\: \lim_{n \to \infty}P(\|\xi_n - \xi\|_2 > \varepsilon) = 0 
   \]
 \end{definition}
 
 \begin{definition}
-  Сходимость в $L_p$ (в среднем):
+  Сходимость в $L_p$ \textbf{(в среднем)}:
   \[
-    \xi_n \overset{L_p}{\to} \xi \Leftrightarrow \lim_{n \to \infty} \mathbb{E}(\|\xi_n - \xi\|_p)^p = 0
+    \xi_n \overset{L_p}{\to} \xi \Leftrightarrow \lim_{n \to \infty} \mathbb{E}\|\xi_n - \xi\|_p^p = 0
   \]
 \end{definition}
 
@@ -181,7 +181,7 @@
     Тогда \[
       \forall f \in BC(\mathbb{R}^k) :\: f(h(x)) \in BC(\mathbb{R}^m)
     \]
-    Значит мы можем взять $f \circ h$ в качестве функции из определения сходимости по вероятности и получить требуемое.
+    Значит мы можем взять $f \circ h$ в качестве функции из определения сходимости по распределению и получить требуемое.
   \end{itemize}
 \end{proof}
 
@@ -199,18 +199,18 @@
 \begin{theorem}
   УЗБЧ.
 
-  Пусть $\{\xi_n\}_{n = 1}^\infty$ -- независимые одинаково распределённые, причём $\mathbb{E}\xi < +\infty$. Тогда
+  Пусть $\{\xi_n\}_{n = 1}^\infty$ -- независимые одинаково распределённые, причём $\mathbb{E}\xi_1 < +\infty$. Тогда
   \[
-    \frac{s_n}{n} \overset{\text{п.н.}}{\to} \mathbb{E}\xi
+    \frac{s_n}{n} \overset{\text{п.н.}}{\to} \mathbb{E}\xi_1
   \]
 \end{theorem}
 
 \begin{theorem}
   ЦПТ.
 
-  Пусть $\{\xi_n\}_{n = 1}^\infty$ -- независимые одинаково распределённые, причём $\exists$ ковариационные матрица $\mathbb{V}\xi$. Тогда
+  Пусть $\{\xi_n\}_{n = 1}^\infty$ -- независимые одинаково распределённые, причём $\exists$ ковариационные матрица $\mathbb{V}\xi_1$. Тогда
   \[
-    \sqrt{n}\left(\frac{s_n}{n} - \mathbb{E}\xi\right) \overset{d}{\to} \mathcal{N}(0,\, \mathbb{V}\xi)
+    \sqrt{n}\left(\frac{s_n}{n} - \mathbb{E}\xi\right) \overset{d}{\to} \mathcal{N}(0,\, \mathbb{V}\xi_1)
   \]
 \end{theorem}
 
@@ -269,7 +269,7 @@
 \begin{theorem}
   Обобщение на многомерный случай.
 
-  Пусть $\xi_n \overset{d}{\to} \xi$ в $\mathbb{R}^m$, и $H :\: \mathbb{R}^m \to \mathbb{R}^s$, у которой в точке $a \in \mathbb{R}^m \exists$ матрица частных производных $H'(x) = \left(\frac{\partial H_i}{\partial x_j}\right)_{i = 1,\,j = 1}^{s,\, m}$, а также числовая последовательность
+  Пусть $\xi_n \overset{d}{\to} \xi$ в $\mathbb{R}^m$, и $H :\: \mathbb{R}^m \to \mathbb{R}^s$, у которой в точке $a \in \mathbb{R}^m \: \exists$ матрица частных производных $H'(x) = \left(\frac{\partial H_i}{\partial x_j}\right)_{i = 1,\,j = 1}^{s,\, m}$, а также числовая последовательность
   $b_n \to 0,\, b_n \neq 0$. Тогда
   \[
     \frac{H(a + \xi_nb_n) - H(a)}{b_n} \overset{d}{\to} H'(a)\xi
@@ -301,15 +301,22 @@
   $\mathcal{B}_\mathcal{X}$ -- $\sigma$-алгебра на $\mathcal{X}$ будем считать Барелевской.
 \end{definition}
 
-\begin{note}
+\begin{proposition}
   Построим модель эксперимента, как случайной величины.
 
   Пусть 
   \[
-    \forall x \in \mathcal{X} :\: X(x) = X
+    \forall x \in \mathcal{X} :\: X(x) = x
   \]
   получим отображение $X :\: \mathcal{X} \to \mathcal{X}$, которое является случайным элементом на вероятностном пространстве $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, P)$ и имеет распределение $P_X = P$
-\end{note}
+\end{proposition}
+
+\begin{proof}
+  Проверим, что данная случайная величина действительно имеет необходимое нам распределение
+  \[
+    P_X(B) = P(X \in B) = P(x :\: X(x) \in B) = P(x \in B) = P(B)
+  \]
+\end{proof}
 
 \begin{note}
   Построим модель $n$ независимых повторений нашего эксперимента.
