@@ -768,7 +768,7 @@
 \begin{definition}
   Борелевская неотрицательная функция $g(x,\,y)$ называется \textbf{функцией потерь}.
 
-  Если $\theta^*(X)$ -- оценка, то $g(\theta^*(X),\, \theta)$ называется величиной потерь.
+  Если $\theta^*(X)$ -- оценка, то $g(\theta^*(X),\, \theta)$ называется \textbf{величиной потерь}.
 \end{definition}
 
 \begin{definition}
@@ -848,7 +848,7 @@
 \end{definition}
 
 \begin{definition}
-  Случайная величина $u_\theta(x) = \frac{\partial}{\partial \theta}L_{p_\theta}(x)$ называется \textbf{вкладом} наблюдения $X$, и функция $I_X(\theta) = \mathbb{E}_\theta u_\theta^2(X)$ называется \textbf{количеством информации} о параметре $\theta$ содержащемся в $X$ (информация по Фишеру).
+  Случайная величина $u_\theta(x) = \frac{\partial}{\partial \theta}L_{p_\theta}(x)$ называется \textbf{вкладом} наблюдения $X$, и функция $I_X(\theta) = \mathbb{E}_\theta u_\theta^2(X)$ называется \textbf{количеством информации} о параметре $\theta$ содержащемся в $X$ (информация \textbf{по Фишеру}).
 \end{definition}
 
 \begin{note}
@@ -886,7 +886,7 @@
   \[
     \frac{\partial}{\partial\theta}\mathbb{E}_\theta S(X) = \frac{\partial}{\partial\theta}1 = \mathbb{E}_\theta u_\theta(X) = 0
   \]
-  Также в силу условия 3, при $S(X) = \hat{\theta}(X)$ имеем
+  Также в силу условия 3, при $S(X) = \hat{\theta}(X)$ имеем (в силу несмещённости нашей оценки)
   \[
     \tau'(\theta) = \mathbb{E}_\theta\hat{\theta}(X)u_\theta(X)
   \]
@@ -915,7 +915,7 @@
 \begin{proof}
   Пусть $\hat{\theta}$ -- эффективная для $\tau(\theta) \Rightarrow \tau'(\theta) = \mathbb{E}(\hat{\theta} - \tau(\theta))u_\theta(X)$. А мы знаем, что равенство в КБШ достигается $\Leftrightarrow (\hat{\theta} - \tau(\theta))$ и $u_\theta(X)$ линейно зависимы:
   \[
-    \theta(\theta) + \beta(\theta)(\hat{\theta} - \tau(\theta)) + \gamma(\theta)u_\theta(X) = 0
+    \alpha(\theta) + \beta(\theta)(\hat{\theta} - \tau(\theta)) + \gamma(\theta)u_\theta(X) = 0
   \]
   Матожидания рассматриваемых величин равны нулю $\Rightarrow \alpha(\theta) \equiv 0$.
 
@@ -1029,13 +1029,13 @@
   \end{align*}
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{UMO_uneq}
   Пусть $\eta \in L_1$, тогда $\mathbb{E}(\mathbb{E}(\eta \:\vert\: \xi) - \mathbb{E}\eta)^2 \leq \mathbb{V}\eta$.
 
   Более того, если $\eta \in L_2$, то равенство в неравенстве выше достигается $\Leftrightarrow \eta = \mathbb{E}(\eta\:\vert\: \xi) \Leftrightarrow \eta$ является $\xi$-измеримой.
 \end{lemma}
 
-\begin{proof}
+\begin{proof}\label{KBR}
   Докажем лишь для $L_2$.
 
   Пусть $\phi = \mathbb{E}(\eta \:\vert\: \xi)$. Тогда по неравенству Йенсена
@@ -1084,8 +1084,159 @@
   \]
   следует, что
   \[
-    f(S(X)) \overset{P_\theta\text{ п.н.}}{=} 0
+    \forall \theta \in \Theta :\: f(S(X)) \overset{P_\theta\text{ п.н.}}{=} 0
   \]
 \end{definition}
+
+\begin{theorem}
+  Лемана-Шеффе.
+
+  Пусть $T$ -- полная достаточная статистика для $\{P_\theta,\, \theta \in \Theta\}$, $d(X)$ -- несмещённая для $\tau(\theta)$. Тогда $\phi = \mathbb{E}(d \:\vert\: T)$ -- несмещённая оценка с равномерно минимальной дисперсией для $\tau(\theta)$.
+
+  Если $\mathbb{V}_\theta(\phi) < +\infty$, то $\phi$ -- оптимальная оценка.
+\end{theorem}
+
+\begin{proof}
+  Очевидно, что $\phi$ несмещённая по той же логике, что и в теореме Колмогорова-Блекуэлла-Рао (свойство УМО).
+  
+  Пусть $\tilde{d}$ -- другая несмещённая оценка. Тогда улучшим её $\tilde{\phi} = \mathbb{E}(\tilde{d} \:\vert\: T)$ не хуже $d$ по (\ref{KBR}) и несмещённая.
+  
+  Имеем 
+  \[
+    \mathbb{E}_\theta(\phi(T) - \tilde{\phi}(T)) = \tau(\theta) - \tau(\theta) = 0
+  \]
+  то есть для $h = \phi - \tilde{\phi}$ имеем $\forall \theta :\: \mathbb{E}_\theta h(T) = 0$. В силу полноты $T$ получаем, что $\forall \alpha :\: h(T) \overset{P_\theta \text{-п.н. }}{=} 0$. То есть наши оценки на самом деле равны почти наверное.
+
+  То есть любая несмещённая оценка, пройдя процедуру улучшения с помощью $T$ почти наверное превращается в $\phi$.
+
+  То есть 
+  \[
+    \forall \tilde{d} :\: \mathbb{V}_\theta(\tilde{d}) \geq \mathbb{V}_\theta(\tilde{\phi}) = \mathbb{V}_\theta(\phi)
+  \]
+  Пусть $\mathbb{V}_\theta(\phi) < +\infty$, теперь предполагаем, что неравенство на самом деле равенство. 
+
+  Это по (\ref{UMO_uneq}) означает, что $\tilde{d}$ уже была $T$-измеримой, то есть $\tilde{d} = \tilde{\phi}$
+\end{proof}
+
+\begin{theorem}
+  Об экспоненциальном семействе.
+
+  Пусть $X_i$ -- выборка из экспоненциального семейства. Если область значений векторной функции 
+  \[
+    \overline{a}(\theta) = (a_1(\theta),\,\cdots,\,a_k(\theta)),\, \theta \in \Theta
+  \]
+  содержит $k$-мерный параллелепипед, то
+  \[
+    T(X) = (\sum_{i = 1}^nT_1(X_i),\,\cdots,\,\sum_{i = 1}^nT_k(X_i))
+  \]
+  является полной и достаточной для $\theta$.
+\end{theorem}
+
+\begin{note}
+  Алгоритм поиска оптимальной оценки:
+  \begin{enumerate}
+    \item Ищем достаточную статистику $T$
+    \item Проверяем на полноту
+    \item Если полная, то решаем уравнение 
+    \[
+      \forall \theta \in \Theta :\: \mathbb{E}_\theta g(T(X)) = \tau(\theta)
+    \]
+  \end{enumerate}
+\end{note}
+
+\section{Доверительные интервалы}
+\begin{definition}
+    Пара статистик $(T_1(X),\,T_2(X))$ называются \textbf{доверительным интервалом} уровня доверия $\gamma$ для параметра $\theta$, если 
+    \[
+      \forall \theta \in \Theta :\: P_\theta(T_1(X) \leq \theta \leq T_2(X)) \geq \gamma
+    \]
+    Если равество достигается при всех $\theta \in \Theta$, то доверительный интервал называют \textbf{точным}.
+\end{definition}
+
+\begin{definition}
+  Множество $S(X) \subset \Theta$ называют \textbf{доверительным множеством} уровня доверия $\gamma$ для параметра $\theta$, если
+  \[
+    \forall \theta \in \Theta :\: P_\theta(S(X) \in \theta) \geq \gamma
+  \]
+\end{definition}
+
+\begin{note}
+  Метод центральных статистик.
+
+  Пусть $\exists$ известная одномерная функция $G(x,\, \theta)$, такая что её распределение не зависит от параметра $\theta$. Такая функция $G$ называется \textbf{центральной статистикой}.
+
+  Пусть $\gamma_1,\,\gamma_2 \in (0,\,1)$ таковы, что $\gamma_2 - \gamma_1 = \gamma$ и при $i = 1,\,2 :\: \exists g_i$ -- $\gamma_i$-квантиль $G(X,\, \theta)$.
+  
+  Тогда
+  \[
+    \forall \theta \in \Theta :\: P_\theta(g_1 \leq G(X,\, \theta) \leq g_2) \geq \gamma_2 - \gamma_1 = \gamma
+  \]
+  Введём обозначение
+  \[
+    S(X) = \{\theta \in \Theta \:\vert\: g_1 \leq G(X,\,\theta) \leq g_2\}
+  \]
+  для $\forall \theta \in \Theta$ имеем
+  \[
+    P_\theta(\theta \in S(X)) \geq \gamma
+  \]
+  то есть $S(X)$ -- доверительное множество уровня доверия $\gamma$.
+
+  Докажем корректность данного метода, заметим, что
+  \[
+    g_i = F^{-1}(\gamma_i) = \inf\{x :\: F(x) \geq \gamma_i\} \Rightarrow F(g_i) \geq \gamma_i
+  \]
+  и при $t < g_i :\: F(t) < \gamma_i \Rightarrow$ устремляя $t \to g_i - 0$ получим $F(g_i - 0) \leq \gamma_i$. Тогда
+  \[
+    P_\theta(g_1 \leq G(X,\, \theta) \leq g_2) = P_\theta(G(X,\,\theta) \leq g_2) - P_\theta(G(X,\,\theta) < g_1) \geq \gamma
+  \]
+  что и требовалось.
+\end{note}
+
+Для поиска центральных статистик в общем случае можно пользоваться следующей леммой:
+\begin{lemma}
+  $X_1,\,\cdots,\,X_n$ -- независимые одинаково распределённые с непрерывной функцией распределения $F(x)$. Тогда
+  \[
+    G(X_1,\,\cdots,\,X_n) = -\sum_{i = 1}^n\ln F(X_i) \sim \Gamma(1,\,n)
+  \]
+\end{lemma}
+
+\begin{proof}
+  Заметим, что
+  \[
+    P(F(y) \leq x) = P(y \leq F^{-1}(x)) = F(F^{-1}(x)) = x,\, x \in [0,\, 1] \Rightarrow F(x) \sim U[0,\,1]
+  \]
+  Несложным упражнением докажите, что $-\ln U[0,\,1] \sim \exp(1)$ и тогда из свойства аддитивности экспоненциальных распределений, утверждение леммы станет очевидным.
+\end{proof}
+
+\begin{definition}
+  Пусть $\{X_n\}_{n = 1}^\infty$ -- выборка неограниченного размера из неизвестного распределения $P \in \{P_\theta,\, \theta \in \Theta\}$. Последовательность пар статистик 
+  \[
+    (T_n^{(1)}(X_1,\,\cdots,\,X_n),\, T_n^{(2)}(X_1,\,\cdots,\,X_n))
+  \]
+  называют \textbf{асимптотическим доверительным интервалом} уровня доверия $\gamma$ для $\theta$, если
+  \[
+    \forall \theta \in \Theta :\: \underline{\lim}_{n \to +\infty} P_\theta(T_n^{(1)}(X_1,\,\cdots,\,X_n) \leq \theta \leq T_n^{(2)}(X_1,\,\cdots,\,X_n)) \geq \gamma
+  \]
+  Если неравенство выше заменить на равенство (при условии, что нижний предел равен верхнему), то асимптотический доверительный интервал называют \textbf{точным}.
+\end{definition}
+
+\begin{note}
+  Построение асимптотических интервалов.
+
+  Пусть $\hat{\theta}_n(X_1,\,\cdots,\,X_n)$ -- асимптотически нормальная оценка $\theta$ с асимптотической дисперсией $\sigma^2(\theta) > 0$, то есть
+  \[
+    \forall \theta \in \Theta :\: \sqrt{n}(\hat{\theta}_n - \theta) \overset{d}{\to} \mathcal{N}(0,\, \sigma^2(\theta))
+  \]
+  Тогда при условии $\sigma(\theta)$ -- непрерывна, будем иметь, что $\hat{\theta}_n \overset{P_\theta}{\to} \theta$. Значит
+  \[
+    \sqrt{n}\frac{\hat{\theta}_n - \theta}{\sigma(\hat{\theta}_n)} = \sqrt{n}\frac{\hat{\theta}_n - \theta}{\sigma(\theta)} \cdot\frac{\sigma(\theta)}{\sigma(\hat{\theta}_n)} \overset{d_\theta}{\to} \sqrt{n}\frac{\hat{\theta}_n - \theta}{\sigma(\theta)} \sim \mathcal{N}(0,\, 1)
+  \]
+  по лемме Слуцкого.
+
+  И теперь не сложно догадаться, как будет выглядеть доверительный интервал
+  \[
+    P_\theta\left(\sqrt{n}\left\vert\frac{\hat{\theta}_n - \theta}{\sigma(\hat{\theta}_n)}\right\vert < u_{\frac{1 + \gamma}{2}}\right) \overset{n \to +\infty}{\to} \gamma
+  \]
+\end{note}
 
 \end{document}
