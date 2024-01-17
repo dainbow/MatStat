@@ -1178,7 +1178,7 @@
 \begin{definition}
   Множество $S(X) \subset \Theta$ называют \textbf{доверительным множеством} уровня доверия $\gamma$ для параметра $\theta$, если
   \[
-    \forall \theta \in \Theta :\: P_\theta(S(X) \in \theta) \geq \gamma
+    \forall \theta \in \Theta :\: P_\theta(\theta \in S(X)) \geq \gamma
   \]
 \end{definition}
 
@@ -2003,7 +2003,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \end{definition}
 
 \begin{theorem}
-  Пирсона. б/д.
+  Пирсона. Доказательство в отдельном билете.
 
   Если выполнена $H_0$, то 
   \[
@@ -2076,6 +2076,109 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \end{definition}
 
 \section{Доказательство теоремы Пирсона}
+\begin{theorem}
+  Пирсона.
+
+  Если выполнена $H_0$, то 
+  \[
+    \hat{\chi}^2_n \overset{d}{\to} \chi^2_{m - 1},\, n \to +\infty
+  \]
+\end{theorem}
+
+\begin{proof}
+  Введём
+  \[
+    Y_j = \begin{pmatrix}
+      \mathbb{I}\{X_j = a_1\}\\
+      \vdots\\
+      \mathbb{I}\{X_j = a_m\}
+    \end{pmatrix},\, 1 \leq j \leq n
+  \]
+  Получается, $\{Y_j\}$ -- независимые одинаково распределённые случайные векторы. Очевидно, что
+  \[
+    \mathbb{E}Y_j = \begin{pmatrix}
+      p_1\\
+      \vdots\\
+      p_m
+    \end{pmatrix} = \begin{pmatrix}
+      p_1^0\\
+      \vdots\\
+      p_m^0
+    \end{pmatrix}
+  \]
+  Теперь посчитаем ковариацию:
+  \[
+    \text{cov}(\mathbb{I}\{X_j = a_i\},\, \mathbb{I}\{X_j = a_k\}) = \mathbb{E}\mathbb{I}\{X_j = a_i,\, X_j = a_k\} - p_i^0p_k^0 = \begin{cases}
+      p_i^0 - (p_i^0)^2,\, i = k\\
+      -p_i^0p_j^0,\, i \neq k
+    \end{cases}
+  \]
+  Положим
+  \[
+    B := \begin{pmatrix}
+      p_1^0 & 0 & \cdots & 0\\
+      \vdots & \ddots & \cdots & \vdots\\
+      0 & 0 & \cdots & p_n^0
+    \end{pmatrix}
+  \]
+  Тогда $\mathbb{V}Y_j = B - p_0^Tp_0$. По многомерной ЦПТ 
+  \[
+    \frac{Y_1 + \cdots + Y_n}{\sqrt{n}} - \sqrt{n}p_0 \overset{d}{\to} \mathcal{N}(0,\, B - p_0^Tp_0)
+  \]
+  Заметим, что сумма $Y_i$ это
+  \[
+    Y_1 + \cdots + Y_n = \begin{pmatrix}
+      \nu_1\\
+      \vdots\\
+      \nu_m
+    \end{pmatrix} = \vec{\nu}
+  \]
+  Пусть $\xi_n := (\sqrt{B})^{-1}\sqrt{n}\left(\frac{\vec{\nu}}{n} - \vec{p}_0\right)$ тогда по теореме о наследовании сходимости
+  \[
+    \xi_n \overset{d}{\to} \mathcal{N}(0,\,(\sqrt{B})^{-1}(B - p_0p_0^T)(\sqrt{B})^{-1}) = \mathcal{N}(0,\,I_m - ZZ^T);\; Z = \begin{pmatrix}
+      \sqrt{p_1^0}\\
+      \vdots\\
+      \sqrt{p_m^0}
+    \end{pmatrix}
+  \]
+  Рассмотрим ортогональную матрицу $V \in \mathbb{R}^{m \times m}$, такую что её первая строка -- это $(\sqrt{p_1^0},\,\cdots,\,\sqrt{p_m^0})$
+  
+  Тогда по теореме о наследовании сходимости:
+  \[
+    V\xi_n \overset{d}{\to} V\mathcal{N}(0,\, I_m - ZZ^T) = \mathcal{N}(0,\, V(I_m - ZZ^T)V^T)
+  \]
+  Заметим, что 
+  \[
+    VZ = \begin{pmatrix}
+      \sqrt{p_1^0} & \cdots & \sqrt{p_m^0}\\
+      \vdots & \ddots & \vdots\\
+      \vdots & \cdots & \ddots\\
+    \end{pmatrix}
+    \begin{pmatrix}
+      \sqrt{p_1^0}\\
+      \vdots\\
+      \sqrt{p_m^0}
+    \end{pmatrix} = \begin{pmatrix}
+      1\\
+      \vdots\\
+      0
+    \end{pmatrix}
+  \]
+  Тогда
+  \[
+    V(I_m - ZZ^T)V^T = I_m - (VZ)(VZ)^T = I_m - \begin{pmatrix}
+      1 & 0 & 0 & 0\\
+      0 & \cdots & 0 & 0\\
+      \vdots & \ddots & \cdots & \vdots\\
+      0 & 0 & 0 & 0
+    \end{pmatrix} := \tilde{I}_m
+  \]
+  По теореме о наследовании сходимости
+  \[
+    \|V\xi_n\|^2 \overset{d}{\to} \|\mathcal{N}(0,\, \tilde{I}_m)\|^2 \overset{d}{=} \chi^2_{m - 1}
+  \]
+  Но $V$ ортогональна, значит $\|V\xi_n\|^2 = \|\xi_n\|^2 = \|(\sqrt{B})^{-1}\sqrt{n}\left(\frac{\nu}{n} - \vec{p}_0\right)\|^2 = \hat{\chi}^2_n$
+\end{proof}
 
 \section{Байесовские оценки}
 Пусть $\Theta \subset \mathbb{R}^d$. В байесовском подходе параметр $\theta$ является случайной величиной (или вектором) с известным распределением $Q$ на множестве $\Theta$.
@@ -2101,5 +2204,196 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{theorem}
   Байесовская оценка является наилучшей оценкой в байесовском подходе с квадратичной функцией потерь.
 \end{theorem}
+
+\begin{proof}
+  Пусть $\hat{\theta}(X)$ -- байесовская оценка $\theta$. Хотим минимизировать
+  \[
+    \int_\Theta R(\hat{\theta},\, \theta)q(\theta)d\theta = \int_\Theta\mathbb{E}_\theta(\hat{\theta} - \theta)^2q(\theta)d\theta = \int_\Theta\int_\mathcal{X}(\hat{\theta} - \theta)^2f(\theta,\,x)dxd\theta = \mathbb{E}_{\tilde{p}}(\hat{\theta}(X) - \theta)^2 
+  \]
+  А по теореме о наилучшем квадратичном прогнозе данное матожидание будет минимальным при $\mathbb{E}_{\tilde{p}}(\theta\:\vert\:X)$
+\end{proof}
+
+\section{Коэффициенты корреляции}
+Теперь будем рассматривать выборки $X = (X_1,\,\cdots,\,X_n)$ и $Y = (Y_1,\,\cdots,\,Y_n)$ -- две выборки одинакового распределения. Нас интересует гипотеза о независимости $\vec{X},\, \vec{Y}$:
+\[
+  H_0 :\: F_{X,\, Y}(t,\,s) = F_X(t)F_Y(s)
+\]
+Пусть $\mathbb{E}X_1^2 < +\infty$ и $\mathbb{E}Y_1^2 < +\infty$.
+
+\begin{definition}
+  Величина
+  \[
+    \hat{\rho} = \frac{\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y})}{\sqrt{\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y})}}
+  \]
+  называется \textbf{коэффициентом корреляции Пирсона}.
+\end{definition}
+
+\begin{proposition}
+  Выполняется сходимость
+  \[
+    \hat{\rho} \overset{\text{п.н.}}{\to} \rho = \frac{\text{cov}(X,\,Y)}{\sqrt{\mathbb{V}X\mathbb{V}Y}}
+  \]
+\end{proposition}
+
+\begin{proof}
+  Вспомним свойство выборочной дисперсии:
+  \[
+    S_X^2 = \frac{1}{n}\sum_{i = 1}^n(X_i - \overline{X}) = \overline{X^2} - (\overline{X})^2
+  \]
+  По УЗБЧ:
+  \[
+    \begin{cases}
+      \overline{X^2} \overset{\text{п.н.}}{\to} \mathbb{E}X_1^2\\
+      \overline{X} \overset{\text{п.н.}}{\to} \mathbb{E}X_1
+    \end{cases} \Rightarrow S_X^2 \to \mathbb{E}X_1^2 - (\mathbb{E}X_1)^2 = \mathbb{V}X
+  \]
+  То есть сходимость знаменателя доказали. Теперь числитель:
+  \[
+    \frac{1}{n}\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y}) = \frac{\sum_{i=1}^nX_iY_i}{n} - \overline{X}\frac{\sum_{i = 1}^nY_i}{n} - \overline{Y}\frac{\sum_{i = 1}^nX_i}{n} + \overline{X}\cdot\overline{Y} \overset{\text{п.н.}}{\to} \mathbb{E}X_1Y_1 - \mathbb{E}X_1\mathbb{E}Y_1
+  \]
+\end{proof}
+
+\begin{theorem}
+  Б/Д.
+
+  Пусть $n > 2$. $X$ и $Y$ -- две независимые выборки, имеющие нормальное распределение. Тогда
+  \[
+    T := \frac{\hat{\rho}\sqrt{n - 2}}{\sqrt{1 - \hat{\rho}^2}} \sim T_{n - 2}
+  \]
+\end{theorem}
+
+Тогда критерием будет $S = \{\vert T\vert > const\}$
+
+\begin{note}
+  Коэффициент корреляции Спирмана.
+
+  Пусть $X_1,\,\cdots,\,X_n$ -- выборка из непрерывного распределения, упорядочим элементы выборки по возрастанию.
+\end{note}
+
+\begin{definition}
+  Номера, которые получили элементы выборки при таком упорядочивании, называются \textbf{рангами}
+  \[
+    R(X_i) \text{ - номер }X_i\text{ в вариационном ряду}
+  \]
+\end{definition}
+
+\begin{note}
+  Если $(r_1,\,\cdots,\,r_n) \in s_n$ -- перестановка, то
+  \[
+    P(R(X_1) = r_1,\,\cdots,\,R(X_n) = r_n) = \frac{1}{n!}
+  \]
+  Обозначим $R_i = R(X_i)$. 
+
+  Аналогично $Y_1,\,\cdots,\,Y_n$ -- выборка из непрерывного распределения и $S_1,\,\cdots,\,S_n$ -- соответствующие ранги.
+
+  Заметим, что
+  \[
+    \overline{R} = \overline{S} = \frac{n + 1}{2}
+  \]
+\end{note}
+
+\begin{definition}
+  Величину 
+  \[
+    \rho_S = \frac{\sum_{i = 1}^n(R_i - \overline{R})(S_i - \overline{S})}{\sqrt{\sum_{i = 1}^n(R_i - \overline{R})^2(S_i - \overline{S})^2}}
+  \]
+  называют \textbf{коэффициентом корреляции Спирмана}.
+\end{definition}
+
+\begin{note}
+  Заметим, что
+  \[
+    \sum_{i = 1}^n(S_i - \overline{S})^2 = \sum_{i = 1}^n(R_i - \overline{R})^2 = \sum_{i = 1}^n\left(R_i - \frac{n + 1}{2}\right)^2 = \sum_{i = 1}^n\left(i - \frac{n + 1}{2}\right)^2 = \frac{n^3 - n}{12}
+  \]
+\end{note}
+
+Определим $T_i$: переставим пары $(R_i,\,S_i)$ в порядке возрастания первой координаты $\Rightarrow$ получим
+\[
+  (1,\,T_1),\,\cdots,\,(n,\,T_n)
+\]
+причём $R_i = k \Leftrightarrow T_k = S_i$.
+
+Тогда
+\begin{align*}
+  \rho_S = \frac{12}{n^3 - n}\sum_{i = 1}^n(R_i - \frac{n + 1}{2})(S_i - \frac{n + 1}{2}) = \frac{12}{n^3 - n}\sum_{i = 1}^n(i - \frac{n + 1}{2})(T_i - \frac{n + 1}{2}) =\\
+  \frac{12}{n^3 - n}(\sum_{i = 1}^n iT_i - \frac{n + 1}{2}\sum_{i = 1}^nT_i - \frac{n + 1}{2}\sum_{i = 1}^ni + n(\frac{n + 1}{2})^2) =\\
+  1 - \frac{6}{n^3 - n}\sum_{i = 1}^n(R_i - S_i)^2
+\end{align*}
+Знаем, что $(T_1,\,\cdots,\,T_n)$ -- перестановка $(1,\,\cdots,\,n)$, и при $H_0$ все $n!$ перестановок равновероятны:
+\[
+  \forall k :\: \mathbb{E}T_k = \sum_{j = 1}^n jP(T_k = j) = \frac{n + 1}{2}
+\]
+Тогда очевидно, что
+\[
+  \mathbb{E}\rho_S = 0
+\]
+
+\begin{lemma}
+  Свойства $\rho_S$:
+  \begin{enumerate}
+    \item $H_0 \Rightarrow \begin{cases}
+      \mathbb{E}\rho_S = 0\\
+      \mathbb{V}\rho_S = \frac{1}{n - 1}
+    \end{cases}$
+    \item По КБШ: $\rho_S \in [-1,\,1]$, причём крайние значения достигаются (при $R_i = S_i$ и обратном порядке).
+    \item При $H_0$ распределение $\rho_S$ известно, не зависит от $F_X$ и $F_Y$ и его квантили есть в таблицах.
+    \item $H_0 \Rightarrow \frac{\rho_S}{\sqrt{\mathbb{V}\rho_S}} \overset{d}{\to} \mathcal{N}(0,\,1),\, n \to +\infty$, причём при $n \geq 50$ это приближение используется.
+  \end{enumerate}
+\end{lemma}
+
+Получается, критерием будет $\{\vert \rho_S\vert > const\}$ -- больше какой-то квантили.
+
+\begin{note}
+  Коэффициент корреляции Кендала.
+
+  Опять есть выборки $X_1,\,\cdots,\,X_n$ и $Y_1,\,\cdots,\,Y_n$.
+\end{note}
+
+\begin{definition}
+  Пары $(X_i,\, Y_i)$ и $(X_j,\, Y_j),\, 1 \leq i < j \leq n$ \textbf{согласованы}, если
+  \[
+    \text{sgn}(X_i - X_j)\text{sgn}(Y_i - Y_j) = 1
+  \]
+\end{definition}
+
+Пусть $S$ -- число согласованных пар, $R$ -- число несогласованных. Тогда
+\[
+  S + R = \frac{n(n - 1)}{2}
+\]
+Определим
+\[
+  T := S - R = \sum_{i < j}\text{sgn}(X_i - X_j)(Y_i - Y_j)
+\]
+Очев $T \in [-\frac{n(n - 1)}{2},\, \frac{n(n - 1)}{2}]$
+
+\begin{definition}
+  Величину
+  \[
+    \tau = \frac{T}{\frac{n(n - 1)}{2}}
+  \]
+  называют \textbf{коэффициентом корреляции Кендала}
+\end{definition}
+
+Заметим, 
+\[
+  \tau = \frac{2(S - R)}{n(n - 1)} = \frac{2(S + R) - 4R}{n(n - 1)} = 1 - \frac{4R}{n(n - 1)} = 1 - \frac{4}{n(n - 1)}\sum_{i < j}\mathbb{I}\{T_i > T_j\}
+\]
+\begin{lemma}
+  Свойства коэффициента Кэндала:
+  \begin{enumerate}
+    \item $H_0 \Rightarrow \begin{cases}
+      \mathbb{E}T = 0\\
+      \mathbb{V}T = \frac{2(2n + 5)}{9n(n - 1)}
+    \end{cases}$
+    \item $\tau \in [-1,\,1]$, крайние значения достигаются при всех согласованных и всех несогласованных.
+    \item \[
+      \tau = 1 - \frac{4}{n^2 - n}\sum_{i < j}\mathbb{I}\{T_i > T_j\};\;\;\;\; \rho_S = 1 - \frac{12}{n^3 - n}\sum_{i < j}(j - i)\mathbb{I}\{T_i > T_j\}
+    \]
+    то есть $\rho_S$ сильнее реагирует на различия рангов в несогласованных парах.
+    \item $H_0 \Rightarrow \rho(\tau,\, \rho_S) \overset{n \to +\infty}{\to} 1$
+    
+    Кроме того, распределение $\tau$ известно, не зависит от $F_X,\, F_Y$ и его квантили известны.
+  \end{enumerate}
+\end{lemma}
 
 \end{document}
