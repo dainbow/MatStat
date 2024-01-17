@@ -1728,4 +1728,172 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \end{enumerate}
 \end{note}
 
+\section{Гипотезы}
+Пусть наблюдение $X$ имеет неизвестное распределение $P \in \mathcal{P}$, где $\mathcal{P}$ -- некоторое семейство распределений.
+
+\begin{definition}
+  \textbf{Статистическая гипотеза} -- это предположение вида $P \in \mathcal{P}_0,\, \mathcal{P}_0 \subset \mathcal{P}$ -- подмножество распределений.
+
+  Обозначение $H_0 :\: P \in \mathcal{P}_0$ -- гипотеза $H_0$.
+
+  Текущая рассматриваемая гипотеза называется \textbf{основной}.
+\end{definition}
+
+Задача: по наблюдению $X$ либо принять $H_0$ (тогда мы сузим класс класс распределений с $\mathcal{P}$ до $\mathcal{P}_0$), либо отвергнем.
+
+В последнем случае мы переходим к рассмотрению альтернативы (если она есть): $H_1 :\: P \in \mathcal{P}_1,\, \mathcal{P}_1 = \mathcal{P} \setminus \mathcal{P}_0$
+
+\begin{definition}
+  Пусть $X$ принимает значения в выборочном пространстве $\mathcal{X}$, а $S \subset \mathcal{X}$ -- некоторое подмножество. Если правило принятия $H_0$ выглядит следующим образом:
+  \[
+    H_0 \text{ отвергается} \Leftrightarrow X \in S
+  \]
+  то $S$ называют \textbf{критическим множеством}, то есть критерием для проверки гипотезы $H_0$.
+\end{definition}
+
+\begin{definition}
+  \textbf{Ошибка первого рода} -- отвергли $H_0$, когда она верна.
+
+  \textbf{Ошибка второго рода} -- приняли $H_0$, когда она неверна.
+\end{definition}
+
+Будем выбирать $S$ так, что вероятность ошибки 1 рода была меньше заранее выбранного $\varepsilon$, а вероятность ошибки 2 рода сделаем как можно меньше
+
+\begin{definition}
+  Пусть $S$ -- критерий для проверки гипотезы $H_0 :\: \mathcal{P}_0$. Функция $\beta(Q,\,S) = Q(X \in S),\, Q \in \mathcal{P}$ называется функцией \textbf{мощности критерия} $S$.
+\end{definition}
+
+\begin{definition}
+  Если для критерия $S$ выполнено неравенство 
+  \[
+    \forall Q \in \mathcal{P}_0 :\: \beta(Q,\, S) \leq \varepsilon
+  \]
+  то говорят, что $S$ \textbf{имеет уровень значимости} $\varepsilon$.
+\end{definition}
+
+\begin{definition}
+  Минимальный уровень значимости 
+  \[
+    \alpha(S) = \sup_{Q \in \mathcal{P}_0}\beta(Q,\, S)
+  \]
+  называется \textbf{мощностью критерия}.
+\end{definition}
+
+\begin{definition}
+  Критерий $S$ называется \textbf{несмещённым}, если
+  \[
+    \sup_{Q \in \mathcal{P}_0}\beta(Q,\,S) \leq \inf_{Q \in \mathcal{P}_1}\beta(Q,\, S)
+  \]
+\end{definition}
+
+\begin{definition}
+  Если $X = (X_1,\,\cdots,\,X_n)$ -- выборка растущего размера, то критерий $S_n$ (точнее, последовательность критериев) называется \textbf{состоятельной}, если
+  \[
+    \forall Q \in \mathcal{P}_1 :\: \beta(Q,\, S_n) \overset{n \to +\infty}{\to} 1  
+  \]
+\end{definition}
+
+\begin{definition}
+  Критерий $S$ уровня значимости $\varepsilon$ называется \textbf{более мощным}, чем критерий $R$ того же уровня значимости, если
+  \[
+    \forall Q \in \mathcal{P}_1 :\: \beta(Q,\,S) \geq \beta(Q,\, R)
+  \]
+  то есть вероятность ошибки 2го рода у $S$ равномерно меньше.
+\end{definition}
+
+\begin{definition}
+  Критерий $S$ называется \textbf{равномерно наиболее мощным} критерием уровня значимости $\varepsilon$, если $\alpha(S) \leq \varepsilon$, и $S$ мощнее $\forall$ другого критерия $R$, который удовлетворяет условию $\alpha(R) \leq \varepsilon$
+\end{definition}
+
+\begin{definition}
+  Гипотеза $H :\: P = P_0$, где $P_0$ -- известное распределение, называется \textbf{простой}.
+\end{definition}
+
+\section{Построение гипотез}
+\begin{lemma}
+  Неймана-Пирсона.
+
+  Пусть для простой гипотезы мы выбрали критерий $S_\lambda := \{X :\: p_1(X) - \lambda p_0(X) \geq 0\}$ и пусть критерий $R$ удовлетворяет условию $P_0(X \in R) \leq P_0(X \in S_\lambda)$. Тогда
+  \begin{align*}
+    P_1(X \in R) \leq P_1(X \in S_\lambda)\\
+    P_0(X \in S_\lambda) \leq P_1(X \in S_\lambda)
+  \end{align*}
+\end{lemma}
+
+\begin{proof}
+  Заметим, что
+  \begin{align*}
+    \mathbb{I}_R(p_1(X) - \lambda p_0(X)) \leq \mathbb{I}_R(X)(p_1(X) - \lambda p_0(X))\mathbb{I}_{\{x :\: p_1(X) - \lambda p_0(X) \geq 0\}}(X) =\\
+    \mathbb{I}_R(X)\mathbb{I}_{S_\lambda}(X)(p_1(X) - \lambda p_0(X)) \leq (p_1(X) - \lambda p_0(X))\mathbb{I}_{S_\lambda}(X)
+  \end{align*}
+  Следовательно
+  \begin{align*}
+    P_1(X \in R) - \lambda P_0(X \in R) = \mathbb{E}_1\mathbb{I}_R(X) - \lambda\mathbb{E}_0\mathbb{I}_R(X) =\\
+    \int_\mathcal{X}\mathbb{I}_R(X)(p_1 - \lambda p_0)(X)d\mu \leq \int_\mathcal{X}\mathbb{I}_{S_\lambda}(X)(p_1(X) - \lambda p_0(X))d\mu =\\
+    P_1(X \in S_\lambda) - \lambda P_0(X \in S_\lambda)
+  \end{align*}
+  Значит
+  \[
+    P_1(X \in S_\lambda) - P_1(X \in R) \geq \lambda(P_0(X \in S_\lambda) - P_0(X \in R)) \geq 0
+  \]
+  Для доказательства второго факта предположим $\lambda \geq 1$:
+  \[
+    P_0(X \in S_\lambda) = \int_\mathcal{X}\mathbb{I}_{S_\lambda}p_0(X)d\mu \leq \int_\mathcal{X}\mathbb{I}_{S_\lambda}p_1(X)d\mu = P_1(X \in S_\lambda)
+  \]
+  Пусть теперь $\lambda < 1$, тогда $\forall x \in \overline{S_\lambda} :\: p_1(x) \leq p_0(x)$:
+  \[
+    P_1(X \in \overline{S_\lambda}) = \int_\mathcal{X}\mathbb{I}_{\overline{S_\lambda}}p_1(X)d\mu \leq \int_\mathcal{X}\mathbb{I}_{\overline{S_\lambda}}p_0(X)d\mu = P_0(X \in \overline{S_\lambda}) \Rightarrow P_0(X \in S_\lambda) \leq P_1(X \in S_\lambda)
+  \]
+\end{proof}
+
+\begin{corollary}
+  Если $\lambda > 0$ удовлетворяет условию $P_0(X \in S_\lambda) = \varepsilon \Rightarrow S_\lambda$ -- равномерно наиболее мощный критерий размера $\varepsilon$.
+\end{corollary}
+
+\begin{note}
+  Для нахождения этого критерия необходимо решить уравнение
+  \[
+    \int_{\{x :\: \{x :\: p_1(X) - \lambda p_0(X) \geq 0\})\}}p_0(x)d\mu = \varepsilon
+  \]
+  В случае абсолютно непрерывных распределений, решение, как правило, есть.
+
+  А в дискретном случае уравнение неразрешимо для многих $\varepsilon > 0$. Тогда можно взять $\varepsilon_0$, для которого оно разрешимо.
+\end{note}
+
+\begin{definition}
+  Пусть семейство $\mathcal{P}$ параметризовано параметром $\theta \in \mathbb{R}$. Пусть $\mathcal{P}$ доминируемо относительно меры $\mu$, то есть $\exists$ функция правдоподобия $f_\theta(X)$.
+
+  Семейство $\{p_\theta,\, \theta \in \Theta\}$ называется \textbf{семейством с монотонным отношением правдоподобия} по статистике $T(X)$ если $\forall \theta_0 < \theta_1$: $\frac{f_{\theta_1}(X)}{f_{\theta_0}(X)}$ является монотонной функцией от $T(X)$, причём тип монотонности один и тот же для всех $\theta_1 > \theta_0$ 
+\end{definition}
+
+\begin{theorem}
+  О монотонном отношении правдоподобия. (б/д)
+
+  Пусть даны гипотезы 
+  \[
+    H_0 :\: \theta \leq \theta_0;\;\;\;\; H_1 :\: \theta > \theta_0
+  \]
+  а семейство $\{p_\theta,\, \theta \in \Theta\}$ -- семейство с монотонным отношением правдоподобия, причём $\frac{f_{\theta_1}(X)}{f_{\theta_2}(X)}$ не убывает по $T(X)$ при $\theta_1 > \theta_2$.
+
+  Тогда критерий $S_\varepsilon = \{T(X) \geq C_\varepsilon\}$ с условием $P_{\theta_0}(S_\varepsilon) = \varepsilon$ является равномерным наиболее мощным критерием уровня значимости $\varepsilon$ для проверки $H_0$ против $H_1$.
+\end{theorem}
+
+\begin{note}
+  Двойственность доверительного оценивания и проверки гипотез.
+
+  \begin{enumerate}
+    \item Пусть $S(X)$ -- доверительная область уровня доверия $1 - \varepsilon$ для параметра $\theta \in \Theta$. Хотим проверить простую гипотезу $H_0 :\: \theta = \theta_0$. Рассмотрим $\tilde{S}(\theta) = \{x \in \mathcal{X} :\: \theta \not\in S(X)\}$. Тогда $\tilde{S}(\theta_0)$ -- критерий уровня значимости $\varepsilon$ для проверки $H_0$. Действительно:
+    \[
+      P_{\theta_0}(X \in \tilde{S}(\theta_0)) = P_{\theta_0}(\theta_0 \not\in S(X)) = 1 - P_{\theta_0}(\theta_0 \in S(X)) \leq \varepsilon
+    \]
+    \item Пусть, наоборот, нам дан критерий $S_{\theta_0}$ уровня значимости $\varepsilon$ для проверки $H_0 :\: \theta = \theta_0$. И пусть $S_{\theta_0}$ известен для всех $\theta_0 \in \Theta$. Рассмотрим $S(X) = \{\theta \in \Theta :\: X \not\in S_{\theta}\}$. Проверим, что это доверительное множество уровня доверия $1 - \varepsilon$. Для
+    \[
+      \forall \theta \in \Theta :\: P_\theta(\theta \in S(X)) = P_\theta(X \not\in S_\theta) = 1 - P_\theta(X \in S_\theta) \geq 1 - \varepsilon
+    \]
+  \end{enumerate}
+\end{note}
+
+
+
+
 \end{document}
