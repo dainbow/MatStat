@@ -1893,7 +1893,89 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \end{enumerate}
 \end{note}
 
+\section{Проверка гипотез в гаусовской линейной модели}
+Цель: построить критерий для проверки линейной гипотезы $H_0 :\: T\theta = t$, где $T \in \mathbb{R}^{m \times k},\, t \in \mathbb{R}^m,\, \text{rk}T = m \leq k$.
 
+Знаем: $\hat{\theta} \sim \mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})$ и $\hat{t} = T\hat{\theta} \sim \mathcal{N}(T\theta,\, T\sigma^2(Z^TZ)^{-1}T) =: \mathcal{N}(T\theta,\, \sigma^2B)$.
 
+Заметим, что матрица $B$ положительно определена и симметрична, тогда
+\[
+  \exists \sqrt{B} :\: \sqrt{B}\sqrt{B} = B,\, (\sqrt{B})^T = \sqrt{B}
+\]
+Тогда
+\[
+  \frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta) \sim \mathcal{N}(0,\, (\sqrt{B})^{-1}B(\sqrt{B}^{-1})^T) = N(0,\,I_m)
+\]
+А это значит
+\[
+  \chi^2_m \sim \|\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)\|^2 = (\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta))^T(\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)) = \frac{1}{\sigma^2}(\hat{t} - T\theta)^TB^{-1}(\hat{t} - T\theta)  
+\]
+Обозначим последнее выражение за $Q_T$, рассмотрим статистику
+\[
+  \hat{Q}_T = (\hat{t} - t)^TB^{-1}(\hat{t} - t)
+\]
+так как $\hat{Q}_T$ выражается через $\hat{Q} \Rightarrow$ не зависит от $X - Z\hat{\theta}$.
+
+Значит в условиях $H_0$:
+\[
+  \frac{\hat{Q}_T}{\|X - Z\theta\|^2}\frac{n - k}{m} \sim F_{m,\,n - k}
+\]
+Теперь можем сформулировать \textbf{F-критерий}:
+\[
+  \left\{\frac{(T\hat{\theta} - t)^T(T(Z^TZ)^{-1}T^T)^{-1}(T\hat{\theta} - t)}{\|X - Z\hat{\theta}\|}\frac{n - k}{m} > u_{1 - \gamma}\right\}
+\]
+где $u_{1 - \gamma}$ -- квантиль $F_{m,\, n - k}$ распределения.
+
+\begin{example}
+  Пример с двумя гауссовскими выборками, отличающимися сдвигом: проверка гипотезы об их
+  однородности.
+
+  Пусть $X_1,\,\cdots,\,X_n \sim \mathcal{N}(a_1,\, \sigma^2);\; Y_1,\,\cdots,\,Y_m \sim \mathcal{N}(a_2,\, \sigma^2)$. Построим F-критерий для $H_0 :\: a = b$, тогда
+  \[
+    W = \begin{pmatrix}
+      X_1\\
+      \vdots\\
+      X_n\\
+      Y_1\\
+      \vdots\\
+      Y_m
+    \end{pmatrix} = \begin{pmatrix}
+      a_1\\
+      \vdots\\
+      a_1\\
+      a_2\\
+      \vdots\\
+      a_2
+    \end{pmatrix} + \vec{\varepsilon} = Z\theta + \vec{\varepsilon}
+  \]
+  где 
+  \[
+    Z = \begin{pmatrix}
+      1 & 0\\
+      \vdots\\
+      1 & 0\\
+      0 & 1\\
+      \vdots\\
+      0 & 1
+    \end{pmatrix},\, \theta = \begin{pmatrix}
+      a_1\\
+      a_2\\
+    \end{pmatrix}
+  \]
+  Получили, что
+  \[
+    \hat{\theta} = (Z^TZ)^{-1}Z^TW = \begin{pmatrix}
+      \overline{X}\\
+      \overline{Y}
+    \end{pmatrix}; T = \begin{pmatrix}
+      1 & -1
+    \end{pmatrix}; \hat{t} = \overline{X} - \overline{Y}; t = 0
+  \]
+  Ну и 
+  \[
+    T(Z^TZ)^{-1}T^T = \frac{1}{n} + \frac{1}{m}; \hat{Q}_T = \left(\frac{1}{n} + \frac{1}{m}\right)^{-1}(\overline{X} - \overline{Y})^2
+  \]
+  Дальше всё это подставляем в формулу и всё получается.......
+\end{example}
 
 \end{document}
