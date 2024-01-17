@@ -1553,4 +1553,179 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   Второй факт следует из предыдущей леммы.
 \end{proof}
 
+\section{Гауссовская линейная модель}
+Если в линейной регрессионной модели $\varepsilon \sim \mathcal{N}(0,\, \sigma^2E) \Rightarrow$ модель называется \textbf{гаусовской линейной} моделью.
+
+\begin{note}
+  $\chi$-квадрат распределением с $k$ степенями свободы называют
+  \[
+    \chi^2_k = \Gamma\left(\frac{1}{2},\,\frac{k}{2}\right) \overset{d}{=} \xi_1^2 + \cdots + \xi_k^2
+  \]
+  где $\xi_i$ -- независимые стандартные нормальные.
+\end{note}
+
+\begin{proposition}
+  Статистика $S(X) = (\text{proj}_LX,\, \|\text{proj}_{L^\bot}X\|^2)$ является достаточной для $(l,\,\sigma^2)$
+\end{proposition}
+
+\begin{proof}
+  Будем искать достаточную статистику с помощью критерия факторизации, для этого выпишем правдоподобие
+  \[
+    p(X) = \left(\frac{1}{\sqrt{2\pi}\sigma}\right)^ne^{-\frac{\sum_{i = 1}^n(X_i - l_i)^2}{2\sigma^2}}
+  \]
+  Заметим, что $\sum_{i = 1}^n(X_i - l_i)^2 = \|X - l\|^2$, применим теорему Пифагора:
+  \[
+    \|X - l\|^2 = \|\text{proj}_LX - \text{proj}_Ll\|^2 + \|\text{proj}_{L^\bot}X - \text{proj}_{L^\bot}l\|^2 \overset{l \in L}{=} \|\text{proj}_LX - l\|^2 + \|\text{proj}_{L^\bot}X\|^2
+  \]
+  То есть
+  \[
+    p(X) = \left(\frac{1}{\sqrt{2\pi}\sigma}\right)^n\exp\left(-\frac{1}{2\sigma^2}(\|\text{proj}_LX - l\|^2 + \|\text{proj}_{L^\bot}X\|^2)\right)
+  \]
+  Видно, что мы привели правдоподобие к виду, необходимому для применения критерия Неймана-Фишера $\Rightarrow$ рассматриваемые статистики действительно достаточные.
+\end{proof}
+
+\begin{theorem}
+  (б/д)
+  
+  $S(X)$ -- полная статистика. 
+\end{theorem}
+
+\begin{corollary}
+  \begin{itemize}
+    \item $\hat{\theta}$ -- оптимальная оценка для $\theta$
+    \item $Z\hat{\theta}$ -- оптимальная оценка для $l$
+    \item $\frac{1}{n - k}\|X - Z\hat{\theta}\|^2$ -- оптимальная оценка для $\sigma^2$
+  \end{itemize}
+\end{corollary}
+
+\begin{proof}
+  Несмещённость всех оценок очевидна из предыдущих рассуждений.
+
+  Покажем, что все они являются функциями от полных достаточных статистик:  
+  \[
+    Z\hat{\theta} = \text{proj}_LX;\;\;\;\; \hat{\theta} = (Z^TZ)^{-1}Z^T\text{proj}_LX;\;\;\;\; \frac{1}{n - k}\|X - Z\hat{\theta}\|^2 = \frac{1}{n - k}\|\text{proj}_{L^\bot}X\|^2
+  \]
+\end{proof}
+
+\begin{proposition}
+  В гаусовской линейной модели $\hat{\theta}$ и $X - Z\hat{\theta}$ независимы, причём
+  \[
+    \frac{1}{\sigma^2}\|Z\hat{\theta} - Z\theta\|^2 \sim \chi^2_k;\;\;\;\; \frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 \sim \chi^2_{n - k};\;\;\;\; \hat{\theta} \sim \mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})
+  \]
+\end{proposition}
+
+\begin{proof}
+  Знаем, что
+  \[
+    \begin{cases}
+      Z\hat{\theta} = \text{proj}_LX\\
+      X - Z\hat{\theta} = \text{proj}_{L^\bot}X
+    \end{cases}
+  \]
+  Согласно теореме об ортогональном разложении гауссовские вектора $Z\hat{\theta},\, X - Z\hat{\theta}$ независимы, причём
+  \[
+    \frac{1}{\sigma^2}\|Z\hat{\theta} - \mathbb{E}(Z\hat{\theta})\|^2 = \frac{1}{\sigma^2}\|Z\hat{\theta} - Z\theta\|^2 \sim \chi^2_k
+  \]
+  И для другого
+  \[
+    \frac{1}{\sigma^2}\|X - Z\hat{\theta} - \mathbb{E}(X - Z\hat{\theta})\|^2 = \frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 \sim \chi^2_{n - k}
+  \]
+  Мы знаем, что $Z\hat{\theta},\, X - Z\hat{\theta}$ независимы, но по выкладкам выше мы знаем, что $\hat{\theta}$ -- линейная функция от $Z\hat{\theta}$, поэтому искомая независимость существует.
+
+  Осталось заметить, что $\hat{\theta}$ -- гаусовская функция, как линейная функция от гаусовского $X$, причём её матожидание и дисперсия считались выше, поэтому её распределение, очевидно, $\mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})$
+\end{proof}
+
+\section{Безумные распределения и их свойства}
+\begin{definition}
+  Пусть $\xi \sim \mathcal{N}(0,\,1),\, \eta \sim \chi^2_k$, причём $\xi$ и $\eta$ независимые. Тогда случайная величина
+  \[
+    \zeta = \frac{\xi}{\sqrt{\frac{\eta}{k}}}
+  \]
+  имеет \textbf{распределение Стьюдента} с $k$ степенями свободы, обозначение $\zeta \sim T_k$.
+\end{definition}
+
+\begin{lemma}
+  Свойства распределения Стьюдента:
+  \begin{enumerate}
+    \item $\zeta \sim T_k \Rightarrow -\zeta \sim T_k$
+    \item $T_1 \sim \text{Cauchy},\, p(x) = \frac{1}{\pi(1 + x^2)}$
+    \item $\zeta_k \sim T_k \Rightarrow \zeta_k \overset{d}{\to} \mathcal{N}(0,\,1)$
+  \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+  Пусть $\xi \sim \chi^2_k,\, \eta \sim \chi^2_m$, причём они независимы. Тогда случайная величина
+  \[
+    \frac{\frac{\xi}{k}}{\frac{\eta}{m}} \sim F_{k,\,m}
+  \]
+  имеет \textbf{распределение Фишера} с параметрами $k,\,m$.
+\end{definition}
+
+\begin{lemma}
+  Свойства распределения Фишера:
+  \begin{enumerate}
+    \item $\xi \sim T_m \Rightarrow \xi^2 \sim F_{1,\,m}$
+    \item $\xi \sim F_{k,\,m} \Rightarrow \frac{1}{\xi} \sim F_{m,\,k}$
+    \item Если $k$ фиксированно и $\xi_m \sim F_{k,\,m} \Rightarrow k\xi_m \overset{d}{\to} \chi^2_k;\; m \to +\infty$
+    \item $\xi_{k,\,m} \sim F_{k,\,m} \Rightarrow \xi_{k,\,m} \overset{d}{\to} \xi \equiv 1;\; k,\,m \to +\infty$
+  \end{enumerate}
+\end{lemma}
+
+\begin{theorem}
+  Об ортогональном разложении. (б/д)
+
+  Пусть $(X_1,\,\cdots,\,X_n) \sim \mathcal{N}(l,\,\sigma^2I_n)$ и $L_1,\,\cdots,\,L_r$ -- попарно ортогональные подпространства $\mathbb{R}^n$, причём 
+  \[
+    L_1\oplus\cdots\oplus L_r = \mathbb{R}^n
+  \]
+  Тогда $Y_i := \text{proj}_{L_i}X,\, i = \overline{1,\,r}$ -- независимые в совокупности нормальные случайные векторы, причём $\mathbb{E}Y_i = \text{proj}_{L_i}l$ и
+  \[
+    \frac{1}{\sigma^2}\|Y_i - \mathbb{E}Y_i\|^2 \sim \chi^2_{\dim L_i}
+  \]
+\end{theorem}
+
+\begin{note}
+  Доверительные интервалы для параметров гаусовской линейной модели:
+  \begin{enumerate}
+    \item Доверительный интервал для $\sigma^2$:
+    \[
+      \frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 \sim \chi^2_{n - k}
+    \]
+    и $u_{1 - \gamma}$ -- квантиль $\chi^2_{n - k}$. Тогда
+    \[
+      \gamma = P\left(\frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 > u_{1 - \gamma}\right) = P\left(\sigma^2 \in \left(0,\, \frac{\|X - Z\hat{\theta}\|^2}{u_{1 - \gamma}}\right)\right)
+    \]
+    \item Доверительный интервал для $\theta_i$
+    
+    Мы знаем распределение вектора $\hat{\theta} \sim \mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})$, пусть $A := (Z^TZ)^{-1}$. Тогда компонента имеет распределение $\hat{\theta}_i \sim \mathcal{N}(\theta_i,\, \sigma^2A_{ii})$.
+
+    Сейчас мы знаем, что
+    \[
+      \begin{cases}
+        \frac{\hat{\theta}_i - \theta_i}{\sqrt{\sigma^2A_{ii}}} \sim \mathcal{N}(0,\,1)\\
+        \frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 \sim \chi^2_{n - k}  
+      \end{cases}
+    \]
+    Причём эти случайные величины независимы (доказали выше), значит
+    \[
+      \sqrt{\frac{n - k}{A_{ii}}}\frac{\hat{\theta}_i - \theta_i}{\|X - Z\hat{\theta}\|} \sim T_{n - k}
+    \]
+    Теперь мы можем написать доверительный интервал, используя табличку квантилей распределения Стьюдента.
+    \item Доверительный интервал для $\theta$:
+    
+    Опять знаем распределения следующих независимых случайных величин:
+    \[
+      \begin{cases}
+        \frac{1}{\sigma^2}\|Z\hat{\theta} - Z\theta\|^2 \sim \chi^2_k\\
+        \frac{1}{\sigma^2}\|X - Z\hat{\theta}\|^2 \sim \chi^2_{n - k}
+      \end{cases}
+    \]
+    Тогда
+    \[
+      \frac{n - k}{k}\frac{\|Z\hat{\theta} - Z\theta\|^2}{\|X - Z\hat{\theta}\|^2} \sim F_{k,\, n-k}
+    \]
+    Используя эту случайную величину мы можем построить доверительный эллипсоид для $\theta$ (так как это многомерная величина).
+  \end{enumerate}
+\end{note}
+
 \end{document}
