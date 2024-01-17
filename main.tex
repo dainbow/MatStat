@@ -1922,7 +1922,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \]
 Теперь можем сформулировать \textbf{F-критерий}:
 \[
-  \left\{\frac{(T\hat{\theta} - t)^T(T(Z^TZ)^{-1}T^T)^{-1}(T\hat{\theta} - t)}{\|X - Z\hat{\theta}\|}\frac{n - k}{m} > u_{1 - \gamma}\right\}
+  \left\{\frac{(T\hat{\theta} - t)^T(T(Z^TZ)^{-1}T^T)^{-1}(T\hat{\theta} - t)}{\|X - Z\hat{\theta}\|^2}\frac{n - k}{m} > u_{1 - \gamma}\right\}
 \]
 где $u_{1 - \gamma}$ -- квантиль $F_{m,\, n - k}$ распределения.
 
@@ -1977,5 +1977,129 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \]
   Дальше всё это подставляем в формулу и всё получается.......
 \end{example}
+
+\section{Критерий Пирсона, Колмогорова}
+\begin{note}
+  Критерий согласия Пирсона (критерий хи-квадрат).
+
+  Пусть $X_1,\,\cdots,\,X_n$ -- i.i.d., причём $P(X_1 = a_i) = p_i,\, i =\overline{1,\,m};\; \sum_{i = 1}^m p_i = 1$.
+
+  Положим $\nu_j = \sum_{i = 1}^n \mathbb{I}\{X_i = a_j\}$ -- количество осуществления исхода $a_j$. Очевидно, $\sum_{j = 1}^n \nu_j = n$. Нам неизвестен
+  \[
+    \vec{p} = \begin{pmatrix}
+      p_1\\
+      \vdots\\
+      p_m
+    \end{pmatrix}
+  \]
+  Хотим проверить гипотезу $H_0 :\: \vec{p} = \vec{p}_0$, где $\vec{p}_0$ принадлежит вероятностному симплексу.
+\end{note}
+
+\begin{definition}
+  Статистикой \textbf{хи-квадрат Пирсона} называют
+  \[
+    \hat{\chi}^2_n = \sum_{j = 1}^m\frac{(\nu_j - np_j^0)^2}{np_j^0}
+  \]
+\end{definition}
+
+\begin{theorem}
+  Пирсона. б/д.
+
+  Если выполнена $H_0$, то 
+  \[
+    \hat{\chi}^2_n \overset{d}{\to} \chi^2_{m - 1},\, n \to +\infty
+  \]
+\end{theorem}
+
+Пусть $u_{1 - \varepsilon}$ -- $(1 - \varepsilon)$-квантиль распределения $\chi^2_{m - 1}$. Если $\hat{\chi}^2_{n} > u_{1 - \varepsilon} \Rightarrow H_0$ отвергается.
+
+\begin{lemma}
+  Критерия Пирсона состоятелен против альтернативы $\vec{p} \neq \vec{p}_0$
+\end{lemma}
+
+\begin{proof}
+  Пусть на самом деле $\vec{p} \neq \vec{p}_0$:
+  \[
+    \hat{\chi}^2_n = n\sum_{i = 1}^m\left(\frac{\nu_i}{n} - p_i^0\right)^2\frac{1}{p_i^0}
+  \]
+  По УЗБЧ имеем, что $\forall i :\: \frac{\nu_i}{n} = \frac{1}{n}\sum_{j = 1}^n\mathbb{I}\{X_j = a_i\} \overset{\text{п.н.}}{\to} P(X_j = a_i) = p_i \Rightarrow$ по теореме о наследовании сходимости:
+  \[
+    \sum_{j = 1}^m\left(\frac{\nu_j}{n} - p_j^0\right)\frac{1}{p_j^0} \overset{\text{п.н.}}{\to} \sum_{j = 1}^m(p_j - p_j^0)^2\frac{1}{p_j^0} > 0
+  \]
+  Значит $\hat{\chi}^2_n \to +\infty$ почти наверное при $n \to +\infty :\: P(\hat{\chi}^2_n > u_{1 - \varepsilon}) \to 1,\, n \to +\infty$. То есть ошибка второго рода стремится к нулю.
+\end{proof}
+
+\begin{note}
+  Критерий согласия Колмогорова.
+
+  Пусть $X = (X_1,\,\cdots,\,X_n)$ -- выборка из неизвестного распределения на $\mathbb{R}$ с непрерывной функцией распределения $F$.
+
+  Вспомним, что
+  \[
+    D_n = \sup_{x \in \mathbb{R}}\vert F_n^*(x) - F(x)\vert \overset{\text{п.н.}}{\to} 0
+  \]
+  Где $D_n$ -- случайная величина.
+\end{note}
+
+\begin{theorem}
+  б/д.
+
+  \begin{enumerate}
+    \item Распределение $D_n$ не зависит от вида $F$.
+    \item $\sqrt{n}D_n \overset{d}{\to} \xi$, где $\xi$ имеет распределение Колмогорова, то есть
+    \[
+      P(\xi \leq z) = \sum_{j \in \mathbb{Z}}(-1)^je^{-2j^2z^2}\mathbb{I}\{z > 0\}
+    \]
+  \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+  Рассмотрим $H_0 :\: F = F_0$ -- непрерывная, \textbf{критерием Колмогорова} называют множество
+  \[
+    S = \{\sqrt{n}\sup_{x \in \mathbb{R}}\vert F_n^*(x) - F_0(x)\vert > k_{1 - \alpha}\}
+  \]
+  где $k_{1 - \alpha}$ -- $(1 - \alpha)$-квантиль распределения Колмогорова, применим при $n \geq 20$.
+\end{definition}
+
+\begin{note}
+  Критерий Смирнова-фон Мизеса.
+
+  Рассмотрим статистику
+  \[
+    \omega^2 = n\int_\mathbb{R}(F_n^*(x) - F_0(x))^2dF_0(x)
+  \]
+  при $H_0 :\: F = F_0$ -- непрерывной, распределение $\omega^2$ не зависит от вида $F_0$ и $\omega^2 \overset{d}{\to} $известному распределению.
+\end{note}
+
+\begin{definition}
+  Критерий Пирсона, Колмогорова и $\omega^2$ называют \textbf{критериями согласия}, так как они проверяют гипотезу вида $H_0 :\: P = P_0$.
+\end{definition}
+
+\section{Доказательство теоремы Пирсона}
+
+\section{Байесовские оценки}
+Пусть $\Theta \subset \mathbb{R}^d$. В байесовском подходе параметр $\theta$ является случайной величиной (или вектором) с известным распределением $Q$ на множестве $\Theta$.
+
+А именно, пусть $Q$ -- распределение на $(\Theta,\, \beta_\Theta)$ с плотностью $q(t)$. Рассмотрим вероятностное пространство $(\Theta \times\mathcal{X},\, \beta_\Theta\otimes\beta_\mathcal{X},\, \tilde{p})$, где $\tilde{p}$ -- мера с плотностью $f(t,\,x) = q(t)p_t(x)$. 
+
+Тогда $(\theta,\, X)$ -- случайный вектор на этом вероятностном пространстве с плотностью $f(t,\,x)$ при таком подходе $p_t(x)$ -- условная плотность $X$ при условии, что $\theta = t$ фиксированная.
+
+Рассмотрим $\theta(t) = t$ -- случайная величина на $(\Theta,\, \beta_\Theta,\, Q)$ и пусть $X$ -- случайная величина на $(\mathcal{X},\, \beta_\mathcal{X},\, p_t)$. Тогда $(\theta,\, X)$ -- случайный вектор на $(\Theta \times\mathcal{X},\, \beta_\Theta\otimes\beta_\mathcal{X},\, \tilde{p})$ с плотностью $f$, причём $q(t)$ -- плотность $\theta$, а $p_t(x)$ -- условная плотность $X$ при $\theta = t$
+
+\begin{definition}
+  Плотность $q(t)$ называется \textbf{априорной} плотностью параметра $\theta$, а условной плотностью $\theta$ относительно $x$ 
+  \[
+    q(t \:\vert\: x) = \frac{q(t)p_t(x)}{\int_\Theta q(u)p_u(x)du}
+  \]
+  называется \textbf{апостериорной} плотностью $\theta$.
+\end{definition}
+
+\begin{definition}
+  Оценка $\hat{\theta}(X) = \int_\Theta tq(t \:\vert\: x)dt = \mathbb{E}_{\tilde{p}}(\theta \:\vert\: X)$ называется \textbf{байесовской} оценкой параметра $\theta$.
+\end{definition}
+
+\begin{theorem}
+  Байесовская оценка является наилучшей оценкой в байесовском подходе с квадратичной функцией потерь.
+\end{theorem}
 
 \end{document}
