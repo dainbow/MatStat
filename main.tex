@@ -210,7 +210,7 @@
 
   Пусть $\{\xi_n\}_{n = 1}^\infty$ -- независимые одинаково распределённые, причём $\exists$ ковариационные матрица $\mathbb{V}\xi_1$. Тогда
   \[
-    \sqrt{n}\left(\frac{s_n}{n} - \mathbb{E}\xi\right) \overset{d}{\to} \mathcal{N}(0,\, \mathbb{V}\xi_1)
+    \sqrt{n}\left(\frac{s_n}{n} - \mathbb{E}\xi_1\right) \overset{d}{\to} \mathcal{N}(0,\, \mathbb{V}\xi_1)
   \]
 \end{theorem}
 
@@ -353,7 +353,7 @@
 \end{note}
 
 \begin{definition}
-  Тройка $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, \mathcal{P})$ называется \textbf{вероятностно-статистической моделью}.
+  Тройка $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, P)$ называется \textbf{вероятностно-статистической моделью}.
 \end{definition}
 
 \begin{note}
@@ -1143,7 +1143,7 @@
 \begin{theorem}
   Об экспоненциальном семействе.
 
-  Пусть $X_i$ -- выборка из экспоненциального семейства. Если область значений векторной функции 
+  Пусть $X_i$ -- выборка из экспоненциального семейства. Если область значений вектор-функции 
   \[
     \overline{a}(\theta) = (a_1(\theta),\,\cdots,\,a_k(\theta)),\, \theta \in \Theta
   \]
@@ -1795,6 +1795,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \[
     \forall Q \in \mathcal{P}_1 :\: \beta(Q,\, S_n) \overset{n \to +\infty}{\to} 1  
   \]
+  то есть вероятность ошибки второго рода стремится к нулю.
 \end{definition}
 
 \begin{definition}
@@ -2125,9 +2126,9 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
       0 & 0 & \cdots & p_m^0
     \end{pmatrix}
   \]
-  Тогда $\mathbb{V}Y_j = B - p_0^Tp_0$. По многомерной ЦПТ 
+  Тогда $\mathbb{V}Y_j = B - p_0p_0^T$. По многомерной ЦПТ 
   \[
-    \frac{Y_1 + \cdots + Y_n}{\sqrt{n}} - \sqrt{n}p_0 \overset{d}{\to} \mathcal{N}(0,\, B - p_0^Tp_0)
+    \frac{Y_1 + \cdots + Y_n}{\sqrt{n}} - \sqrt{n}p_0 \overset{d}{\to} \mathcal{N}(0,\, B - p_0p_0^T)
   \]
   Заметим, что сумма $Y_i$ это
   \[
@@ -2227,7 +2228,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{definition}
   Величина
   \[
-    \hat{\rho} = \frac{\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y})}{\sqrt{\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y})}}
+    \hat{\rho} = \frac{\sum_{i = 1}^n(X_i - \overline{X})(Y_i - \overline{Y})}{\sqrt{\sum_{i = 1}^n(X_i - \overline{X})^2\sum_{i = 1}^n(Y_i - \overline{Y})^2}}
   \]
   называется \textbf{коэффициентом корреляции Пирсона}.
 \end{definition}
@@ -2242,7 +2243,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{proof}
   Вспомним свойство выборочной дисперсии:
   \[
-    S_X^2 = \frac{1}{n}\sum_{i = 1}^n(X_i - \overline{X}) = \overline{X^2} - (\overline{X})^2
+    S_X^2 = \frac{1}{n}\sum_{i = 1}^n(X_i - \overline{X})^2 = \overline{X^2} - (\overline{X})^2
   \]
   По УЗБЧ:
   \[
@@ -2299,7 +2300,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{definition}
   Величину 
   \[
-    \rho_S = \frac{\sum_{i = 1}^n(R_i - \overline{R})(S_i - \overline{S})}{\sqrt{\sum_{i = 1}^n(R_i - \overline{R})^2(S_i - \overline{S})^2}}
+    \rho_S = \frac{\sum_{i = 1}^n(R_i - \overline{R})(S_i - \overline{S})}{\sqrt{\sum_{i = 1}^n(R_i - \overline{R})^2\sum_{i = 1}^n(S_i - \overline{S})^2}}
   \]
   называют \textbf{коэффициентом корреляции Спирмана}.
 \end{definition}
