@@ -572,7 +572,7 @@
 
 Пусть $X_1,\,\cdots,\,X_n$ -- выборка из $P \in \{P_\theta,\, \theta \in \Theta\},\, \Theta \subset \mathbb{R}^k$. Рассмотрим барелевские функции $g_1(x),\,\cdots,\,g_k(x)$ со значениями в $\mathbb{R}$.
 
-Пусть $m_1(\theta) = \mathbb{E}_\theta g_i(X_1)$ конечно при $1 \leq i \leq k$. 
+Пусть $m_i(\theta) = \mathbb{E}_\theta g_i(X_1)$ конечно при $1 \leq i \leq k$. 
 
 \begin{definition}
   Если $\exists!$ решение системы
@@ -772,7 +772,7 @@
 \end{definition}
 
 \begin{definition}
-  Если задана функция потерь $g$, то \textbf{функцией риска} оценки $\theta^*$ называется $R(\theta^*,\, \theta) = \mathbb{E}_\theta g(\theta^*,\, \theta)$
+  Если задана функция потерь $g$, то \textbf{функцией риска} оценки $\theta^*$ называется $R(\theta^*,\, \theta) = \mathbb{E}_\theta g(\theta^*(X),\, \theta)$
 \end{definition}
 
 \begin{definition}
@@ -943,7 +943,7 @@
 
   Можем поделить обе части на $\gamma(\theta) \neq 0$, это верно ведь иначе
   \[
-    \mathbb{V}_\theta\beta(\theta)u_\theta(X) = 0 \Rightarrow \beta = 0 \Rightarrow\bot
+    \mathbb{V}_\theta\beta(\theta)(\hat{\theta} - \tau(\theta)) = 0 \Rightarrow \beta = 0 \Rightarrow\bot
   \]
   То есть $\hat{\theta} - \tau(\theta) = r(\theta)u_\theta(X)$.
 
@@ -1032,14 +1032,14 @@
   \[
     P_\theta(X = x \:\vert\: T(X) = t) = \frac{P_\theta(X = x,\, T(X) = t)}{P_\theta(T(X) = t)} = \begin{cases}
       0,\, T(X) \neq t\\
-      \frac{P_\theta(X = x)}{\sum_{y :\: T(y) = t}P_\theta(X = y)} = \frac{\psi(T(X),\, \theta)h(X)}{\sum_{y :\: T(y) = t} \psi(T(y),\, \theta)h(y)}
+      \frac{P_\theta(X = x)}{\sum_{y :\: T(y) = t}P_\theta(X = y)} = \frac{\psi(T(x),\, \theta)h(x)}{\sum_{y :\: T(y) = t} \psi(T(y),\, \theta)h(y)}
     \end{cases} 
   \]
   После сокращения имеем
   \[
     P_\theta(X = x \:\vert\: T(X) = t) = \begin{cases}
       0,\, T(X) \neq t\\
-      \frac{h(X)}{\sum_{y :\: T(y) = t} h(y)},\, T(X) = t
+      \frac{h(x)}{\sum_{y :\: T(y) = t} h(y)},\, T(X) = t
     \end{cases}
   \]
   То есть получили что-то, независящее от $\theta$, что подходит под определение достаточной статистики.
@@ -1135,7 +1135,7 @@
   \[
     \forall \tilde{d} :\: \mathbb{V}_\theta(\tilde{d}) \geq \mathbb{V}_\theta(\tilde{\phi}) = \mathbb{V}_\theta(\phi)
   \]
-  Пусть $\mathbb{V}_\theta(\phi) < +\infty$, теперь предполагаем, что неравенство на самом деле равенство. 
+  Пусть $\mathbb{V}_\theta(\phi) < +\infty$, теперь предполагаем, что неравенство на самом деле равенство. (проверяем, что если какая-то другая оценка имеет такую же дисперсию, то это на самом деле $\tilde{\phi}$) 
 
   Это по (\ref{UMO_uneq}) означает, что $\tilde{d}$ уже была $T$-измеримой, то есть $\tilde{d} = \tilde{\phi}$
 \end{proof}
@@ -1277,7 +1277,7 @@
     \item Наблюдение $X$ есть выборка из неизвестного распределения $p \in \{P_\theta,\, \theta \in \Theta\}$
     \item $\Theta$ -- открытый интервал в $\mathbb{R}$ (возможно бесконечный)
     \item Функция $p_\theta(x)$ непрерывно дифференцируемая по $\theta$ при всех $x \in A$.
-    \item $p_\theta(x)$ трижды непрерывно дифференцируема по $\theta \: \forall x \in A$.
+    \item $\forall x \in A :\: p_\theta(x)$ трижды непрерывно дифференцируема по $\theta$.
     \item Интеграл $\int_Ap_\theta(x)\mu(dx)$ трижды дифференцируем по $\theta$ под знаком интеграла.
     \item $\mathbb{E}(\frac{\partial}{\partial\theta}\ln p_\theta(X_1))^2 = i(\theta) \in (0,\,+\infty)$
     \item Выполняется
@@ -1304,16 +1304,16 @@
   \]
   Хотим применить ЗБЧ, а для этого нужно
   \[
-    \mathbb{E}_\theta\frac{f_\theta(X)}{f_{\theta_0}(X)} < 0
+    \mathbb{E}_\theta\ln\frac{f_\theta(X)}{f_{\theta_0}(X)} < 0
   \]
   то есть
   \begin{align*}
     \int_A\ln\frac{p_\theta(x)}{p_{\theta_0}(x)}p_{\theta_0}(x)dx = \int_A\ln\left(1 + \frac{p_\theta(x)}{p_{\theta_0}(x)} - 1\right)p_{\theta_0}(x)dx \leq\\
-    \int_A\left(\frac{p_\theta(x)}{p_{\theta_0}(x)} - 1\right)p_{\theta_0}(x) = \int_Ap_\theta(x)dx - \int_Ap_{\theta_0}(x)dx = 1 - 1 = 0 
+    \int_A\left(\frac{p_\theta(x)}{p_{\theta_0}(x)} - 1\right)p_{\theta_0}(x)dx = \int_Ap_\theta(x)dx - \int_Ap_{\theta_0}(x)dx = 1 - 1 = 0 
   \end{align*}
   Причём равенство выполняется тогда и только тогда, когда
   \[
-    \mu(x \in A :\: p_\theta(x) \neq p_{\theta_0}(x)) = 0
+    \mu(x \in A :\: p_\theta(x) = p_{\theta_0}(x)) = 0
   \]
   что противоречит первому условию регулярности.
 \end{proof}
@@ -1351,7 +1351,7 @@
 
   Пусть выполняются условия регулярности 1-5 и пусть элементы выборки имеют распределение $P_{\theta_0}$. Тогда $\exists$ отображение $\hat{\theta}_n(X_1,\,\cdots,\,X_n,\,\theta_0)$ со значениями в $\Theta$:
   \[
-    (P_{\theta_0})^*(\{\theta_n \text{ не решение уравнения правдоподобия}\}) \overset{n \to +\infty}{\to} 0
+    (P_{\theta_0})^*(\{\hat{\theta}_n \text{ не решение уравнения правдоподобия}\}) \overset{n \to +\infty}{\to} 0
   \]
   и
   \[
@@ -1378,7 +1378,7 @@
 
   Тогда $\{\hat{\theta}_n \text{ - не решение уравнения}\} \subset \{\mathcal{X}^n \setminus s_n\}$, навесив внешнюю меру, то получим первое неравенство из теоремы.
 
-  Теперь осталось заметить, что если у нас не выполненяется неравенство $\vert\hat{\theta}_n - \theta\vert > \varepsilon$, то мы точно не в $s_n$, а значит снова сможем оценить сверху мерой $(P_{\theta_0}^*)(\mathcal{X}^n \setminus s_n) \overset{n \to +\infty}{\to} 0$
+  Теперь осталось заметить, что если у нас выполненяется неравенство $\vert\hat{\theta}_n - \theta_0\vert > \varepsilon$, то мы точно не в $s_n$, а значит снова сможем оценить сверху мерой $(P_{\theta_0}^*)(\mathcal{X}^n \setminus s_n) \overset{n \to +\infty}{\to} 0$
 \end{proof}
 
 \begin{note}
@@ -1499,7 +1499,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \[
     \mathbb{E}\hat{\theta} = \mathbb{E}(Z^TZ)^{-1}Z^TX = (Z^TZ)^{-1}Z^T\mathbb{E}X
   \]
-  Но мы знаем, что $X = Z\theta + \varepsilon \Rightarrow \mathbb{E}X = Z\Theta \Rightarrow$ всё кроме $\theta$ сократится и доказали.
+  Но мы знаем, что $X = Z\theta + \varepsilon \Rightarrow \mathbb{E}X = Z\theta \Rightarrow$ всё кроме $\theta$ сократится и доказали.
 
   Теперь дисперсия:
   \[
@@ -1534,6 +1534,10 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
     \mathbb{E}\|X - Z\theta\|^2 = \sigma^2\text{tr}(I_n - A) = \sigma^2(\text{tr}I_n - \text{tr}A) =\\
     \sigma^2(n -  \text{tr}I_k) = \sigma^2(n - k)
   \end{align*}
+  В предпоследнем переходе воспользовались цикличностью следа:
+  \[
+    \text{tr}A = \text{tr}(Z(Z^TZ)^{-1}Z^T) = \text{tr}((Z^TZ)(Z^TZ)^{-1}) = \text{tr}(I_k)
+  \]
 \end{proof}
 
 \begin{corollary}
@@ -1649,7 +1653,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \begin{enumerate}
     \item $\zeta \sim T_k \Rightarrow -\zeta \sim T_k$
     \item $T_1 \sim \text{Cauchy},\, p(x) = \frac{1}{\pi(1 + x^2)}$
-    \item $\zeta_k \sim T_k \Rightarrow \zeta_k \overset{d}{\to} \mathcal{N}(0,\,1)$
+    \item $\zeta_k \sim T_k \Rightarrow \zeta_k \overset{d}{\to} \mathcal{N}(0,\,1),\, k \to +\infty$
   \end{enumerate}
 \end{lemma}
 
@@ -1853,7 +1857,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{note}
   Для нахождения этого критерия необходимо решить уравнение
   \[
-    \int_{\{x :\: \{x :\: p_1(X) - \lambda p_0(X) \geq 0\})\}}p_0(x)d\mu = \varepsilon
+    \int_{\{x :\: p_1(X) - \lambda p_0(X) \geq 0\}}p_0(x)d\mu = \varepsilon
   \]
   В случае абсолютно непрерывных распределений, решение, как правило, есть.
 
@@ -1882,7 +1886,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   Двойственность доверительного оценивания и проверки гипотез.
 
   \begin{enumerate}
-    \item Пусть $S(X)$ -- доверительная область уровня доверия $1 - \varepsilon$ для параметра $\theta \in \Theta$. Хотим проверить простую гипотезу $H_0 :\: \theta = \theta_0$. Рассмотрим $\tilde{S}(\theta) = \{x \in \mathcal{X} :\: \theta \not\in S(X)\}$. Тогда $\tilde{S}(\theta_0)$ -- критерий уровня значимости $\varepsilon$ для проверки $H_0$. Действительно:
+    \item Пусть $S(X)$ -- доверительная область уровня доверия $1 - \varepsilon$ для параметра $\theta \in \Theta$. Хотим проверить простую гипотезу $H_0 :\: \theta = \theta_0$. Рассмотрим $\tilde{S}(\theta) = \{x \in \mathcal{X} :\: \theta \not\in S(x)\}$. Тогда $\tilde{S}(\theta_0)$ -- критерий уровня значимости $\varepsilon$ для проверки $H_0$. Действительно:
     \[
       P_{\theta_0}(X \in \tilde{S}(\theta_0)) = P_{\theta_0}(\theta_0 \not\in S(X)) = 1 - P_{\theta_0}(\theta_0 \in S(X)) \leq \varepsilon
     \]
@@ -1904,17 +1908,17 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \]
 Тогда
 \[
-  \frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta) \sim \mathcal{N}(0,\, (\sqrt{B})^{-1}B(\sqrt{B}^{-1})^T) = N(0,\,I_m)
+  \frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta) \sim \mathcal{N}(0,\, (\sqrt{B})^{-1}B(\sqrt{B}^{-1})^T) = \mathcal{N}(0,\,I_m)
 \]
 А это значит
 \[
-  \chi^2_m \sim \|\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)\|^2 = (\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta))^T(\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)) = \frac{1}{\sigma^2}(\hat{t} - T\theta)^TB^{-1}(\hat{t} - T\theta)  
+  \chi^2_m \sim \left\|\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)\right\|^2 = \left(\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)\right)^T\left(\frac{1}{\sigma}(\sqrt{B})^{-1}(\hat{t} - T\theta)\right) = \frac{1}{\sigma^2}(\hat{t} - T\theta)^TB^{-1}(\hat{t} - T\theta)  
 \]
 Обозначим последнее выражение за $Q_T$, рассмотрим статистику
 \[
   \hat{Q}_T = (\hat{t} - t)^TB^{-1}(\hat{t} - t)
 \]
-так как $\hat{Q}_T$ выражается через $\hat{Q} \Rightarrow$ не зависит от $X - Z\hat{\theta}$.
+так как $\hat{Q}_T$ выражается через $\hat{\theta} \Rightarrow$ не зависит от $X - Z\hat{\theta}$.
 
 Значит в условиях $H_0$:
 \[
@@ -2042,7 +2046,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \end{note}
 
 \begin{theorem}
-  б/д.
+  (б/д)
 
   \begin{enumerate}
     \item Распределение $D_n$ не зависит от вида $F$.
@@ -2094,7 +2098,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
       \mathbb{I}\{X_j = a_m\}
     \end{pmatrix},\, 1 \leq j \leq n
   \]
-  Получается, $\{Y_j\}$ -- независимые одинаково распределённые случайные векторы. Очевидно, что
+  Получается, $\{Y_j\}_{j = 1}^n$ -- независимые одинаково распределённые случайные векторы. Очевидно, что
   \[
     \mathbb{E}Y_j = \begin{pmatrix}
       p_1\\
@@ -2118,7 +2122,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
     B := \begin{pmatrix}
       p_1^0 & 0 & \cdots & 0\\
       \vdots & \ddots & \cdots & \vdots\\
-      0 & 0 & \cdots & p_n^0
+      0 & 0 & \cdots & p_m^0
     \end{pmatrix}
   \]
   Тогда $\mathbb{V}Y_j = B - p_0^Tp_0$. По многомерной ЦПТ 
@@ -2135,7 +2139,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \]
   Пусть $\xi_n := (\sqrt{B})^{-1}\sqrt{n}\left(\frac{\vec{\nu}}{n} - \vec{p}_0\right)$ тогда по теореме о наследовании сходимости
   \[
-    \xi_n \overset{d}{\to} \mathcal{N}(0,\,(\sqrt{B})^{-1}(B - p_0p_0^T)(\sqrt{B})^{-1}) = \mathcal{N}(0,\,I_m - ZZ^T);\; Z = \begin{pmatrix}
+    \xi_n \overset{d}{\to} \mathcal{N}\left(0,\,(\sqrt{B})^{-1}(B - p_0p_0^T)(\sqrt{B})^{-1}\right) = \mathcal{N}(0,\,I_m - ZZ^T);\; Z = \begin{pmatrix}
       \sqrt{p_1^0}\\
       \vdots\\
       \sqrt{p_m^0}
