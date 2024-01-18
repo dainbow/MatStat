@@ -434,13 +434,13 @@
   \end{align*}
   Последний переход получили благодаря тому, что $F(X_{N,\, K + 1} - 0)$ -- отсуп чуть влево, от нижней границы значения, где $F(x) \geq \frac{K + 1}{N}$, значит там $\leq \frac{K + 1}{N}$. Ну а $F(X_{N,\, K})$ по определению $\geq \frac{K}{N}$.
 
-  Аналогично $F_n^*(x) - F(x) \geq F_n^*(X_{N,\, K}) - F(X_{N,\, K}) - \frac{1}{N}$. Тогда
+  Аналогично $F_N^*(x) - F(x) \geq F_N^*(X_{N,\, K}) - F(X_{N,\, K}) - \frac{1}{N}$. Тогда
   \[
-    \vert F_N^*(x) - F(x)\vert \leq \max(\vert F_n^*(X_{N,\, K + 1} - 0) - F(X_{N,\, K + 1} - 0)\vert,\, \vert F_n^*(X_{N,\, K}) - F(X_{N,\, K})\vert) + \frac{1}{N}
+    \vert F_N^*(x) - F(x)\vert \leq \max(\vert F_N^*(X_{N,\, K + 1} - 0) - F(X_{N,\, K + 1} - 0)\vert,\, \vert F_N^*(X_{N,\, K}) - F(X_{N,\, K})\vert) + \frac{1}{N}
   \]
   Но тогда супремум по всей прямой
   \[
-    \sup_{x \in \mathbb{R}}\vert F_N^*(x) - F(x)\vert \leq \max_{0 \leq K \leq N - 1}\max(\vert F_n^*(X_{N,\, K + 1} - 0) - F(X_{N,\, K + 1} - 0)\vert,\, \vert F_n^*(X_{N,\, K}) - F(X_{N,\, K})\vert) + \frac{1}{N}
+    \sup_{x \in \mathbb{R}}\vert F_N^*(x) - F(x)\vert \leq \max_{0 \leq K \leq N - 1}\max(\vert F_N^*(X_{N,\, K + 1} - 0) - F(X_{N,\, K + 1} - 0)\vert,\, \vert F_N^*(X_{N,\, K}) - F(X_{N,\, K})\vert) + \frac{1}{N}
   \]
   Из предыдущего утверждения следует, что $F_n^*(y - 0) = P_n^*((-\infty,\, y)) \to P_X((-\infty,\, y)) = F(y - 0)$.
 
@@ -725,7 +725,7 @@
   \]
   Давайте упростим это выражение, раскрыв $t_n$ и применив свойство квантиля $F(z_p) = p$:
   \[
-    F(t_n(x)) = p + x\sqrt{\frac{pq}{n}} + \frac{1}{2}\frac{x^2pq}{n}\cdot\frac{f'(z_p)}{f^2(z_p)} + o(\frac{1}{n}),\, n \to +\infty
+    F(t_n(x)) = p + x\sqrt{\frac{pq}{n}} + \frac{1}{2}\frac{x^2pq}{n}\cdot\frac{f'(z_p)}{f^2(z_p)} + o\left(\frac{1}{n}\right),\, n \to +\infty
   \]
   Теперь должны расписать приближение $\ln\left(\frac{F(t_n(x))}{p}\right)$, используя формулу $\ln(1 + x) = x - \frac{x^2}{2} + o(x^3)$, причём в квадрате нам нужен будет только $x\sqrt{\frac{pq}{n}}$:
   \[
@@ -1149,7 +1149,7 @@
   \]
   содержит $k$-мерный параллелепипед, то
   \[
-    T(X) = (\sum_{i = 1}^nT_1(X_i),\,\cdots,\,\sum_{i = 1}^nT_k(X_i))
+    T(X) = \left(\sum_{i = 1}^nT_1(X_i),\,\cdots,\,\sum_{i = 1}^nT_k(X_i)\right)
   \]
   является полной и достаточной для $\theta$.
 \end{theorem}
@@ -1304,7 +1304,7 @@
   \]
   Хотим применить ЗБЧ, а для этого нужно
   \[
-    \mathbb{E}_\theta\ln\frac{f_\theta(X)}{f_{\theta_0}(X)} < 0
+    \mathbb{E}_{\theta_0}\ln\frac{f_\theta(X)}{f_{\theta_0}(X)} < 0
   \]
   то есть
   \begin{align*}
@@ -1406,9 +1406,9 @@
   \]
   На отрезке $[\theta_0 - \varepsilon,\, \theta_0 + \varepsilon]$ достигается максимум, это следует из непрерывности плотности, а это следует из предположения регулярности.
 
-  Этот максимум достигается на внутренней точке отрезка, которую обозначим $\theta_n^*$, и в ней $\frac{\partial}{\partial\theta}f = 0$, так как корень единственный, то $\hat{\theta}_n = \theta^*_n$.
+  Этот максимум достигается на внутренней точке отрезка, которую обозначим $\theta_n^*$, и в ней $\frac{\partial}{\partial\theta}f_\theta = 0$, так как корень единственный, то $\hat{\theta}_n = \theta^*_n$.
 
-  То есть $\hat{\theta}_n$ -- локальный максимум, но пусть существует $\tilde{\theta}_n$, в которой значение $f$ не меньше, чем в $\hat{\theta}_n$. Но тогда между $\hat{\theta}_n,\, \tilde{\theta}_n$ будет точка, в которой занулится производная (локального минимума), что противоречит с единственностью корня уравнения правдоподобия.
+  То есть $\hat{\theta}_n$ -- локальный максимум, но пусть существует $\tilde{\theta}_n$, в которой значение $f_\theta$ не меньше, чем в $\hat{\theta}_n$. Но тогда между $\hat{\theta}_n,\, \tilde{\theta}_n$ будет точка, в которой занулится производная (локального минимума), что противоречит с единственностью корня уравнения правдоподобия.
 \end{proof}
 
 \section{Дополнительные свойства ОМП}
@@ -1764,7 +1764,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 Будем выбирать $S$ так, что вероятность ошибки 1 рода была меньше заранее выбранного $\varepsilon$, а вероятность ошибки 2 рода сделаем как можно меньше
 
 \begin{definition}
-  Пусть $S$ -- критерий для проверки гипотезы $H_0 :\: \mathcal{P}_0$. Функция $\beta(Q,\,S) = Q(X \in S),\, Q \in \mathcal{P}$ называется функцией \textbf{мощности критерия} $S$.
+  Пусть $S$ -- критерий для проверки гипотезы $H_0 :\: \mathcal{P}_0$. Функция $\beta(Q,\,S) = Q(X \in S),\, Q \in \mathcal{P}$ называется \textbf{функцией мощности критерия} $S$.
 \end{definition}
 
 \begin{definition}
@@ -1856,7 +1856,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \end{corollary}
 
 \begin{note}
-  Для нахождения этого критерия необходимо решить уравнение
+  Для нахождения $\lambda$ из этого критерия необходимо решить уравнение
   \[
     \int_{\{x :\: p_1(X) - \lambda p_0(X) \geq 0\}}p_0(x)d\mu = \varepsilon
   \]
@@ -1891,9 +1891,9 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
     \[
       P_{\theta_0}(X \in \tilde{S}(\theta_0)) = P_{\theta_0}(\theta_0 \not\in S(X)) = 1 - P_{\theta_0}(\theta_0 \in S(X)) \leq \varepsilon
     \]
-    \item Пусть, наоборот, нам дан критерий $S_{\theta_0}$ уровня значимости $\varepsilon$ для проверки $H_0 :\: \theta = \theta_0$. И пусть $S_{\theta_0}$ известен для всех $\theta_0 \in \Theta$. Рассмотрим $S(X) = \{\theta \in \Theta :\: X \not\in S_{\theta}\}$. Проверим, что это доверительное множество уровня доверия $1 - \varepsilon$. Для
+    \item Пусть, наоборот, нам дан критерий $S_{\theta_0}$ уровня значимости $1 - \varepsilon$ для проверки $H_0 :\: \theta = \theta_0$. И пусть $S_{\theta_0}$ известен для всех $\theta_0 \in \Theta$. Рассмотрим $S(X) = \{\theta \in \Theta :\: X \not\in S_{\theta}\}$. Проверим, что это доверительное множество уровня доверия $\varepsilon$. Для
     \[
-      \forall \theta \in \Theta :\: P_\theta(\theta \in S(X)) = P_\theta(X \not\in S_\theta) = 1 - P_\theta(X \in S_\theta) \geq 1 - \varepsilon
+      \forall \theta \in \Theta :\: P_\theta(\theta \in S(X)) = P_\theta(X \not\in S_\theta) = 1 - P_\theta(X \in S_\theta) \geq \varepsilon
     \]
   \end{enumerate}
 \end{note}
