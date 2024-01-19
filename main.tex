@@ -219,7 +219,7 @@
 
   Пусть $\xi_n \overset{d}{\to} \xi$ и $\eta_n \overset{d}{\to} c \:(const)$. Тогда 
   \[
-    \xi_n + \eta_n \overset{d}{\to} \xi + \eta ;\;\;\;\; \xi_n\cdot\eta_n \overset{d}{\to} \xi\cdot c
+    \xi_n + \eta_n \overset{d}{\to} \xi + c ;\;\;\;\; \xi_n\cdot\eta_n \overset{d}{\to} \xi\cdot c
   \]
 \end{lemma}
 
@@ -457,7 +457,7 @@
 \end{definition}
 
 \begin{definition}
-  Пусть $X$ -- наблюдение в параметрической модели $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, \{P_\theta\}_{\theta \in \Theta})$ и $S(X)$ -- статистика со значениями в $\Theta$. Тогда $S(X)$ называется \textbf{оценкой} неизвестного параметра $\Theta$.
+  Пусть $X$ -- наблюдение в параметрической модели $(\mathcal{X},\, \mathcal{B}_\mathcal{X},\, \{P_\theta,\, \theta \in \Theta\})$ и $S(X)$ -- статистика со значениями в $\Theta$. Тогда $S(X)$ называется \textbf{оценкой} неизвестного параметра $\Theta$.
 \end{definition}
 
 \begin{example}
@@ -572,7 +572,7 @@
 
 Пусть $X_1,\,\cdots,\,X_n$ -- выборка из $P \in \{P_\theta,\, \theta \in \Theta\},\, \Theta \subset \mathbb{R}^k$. Рассмотрим барелевские функции $g_1(x),\,\cdots,\,g_k(x)$ со значениями в $\mathbb{R}$.
 
-Пусть $m_i(\theta) = \mathbb{E}_\theta g_i(X_1)$ конечно при $1 \leq i \leq k$. 
+Пусть $m_i(\theta) = \mathbb{E}_\theta g_i(x)$ конечно при $1 \leq i \leq k$. 
 
 \begin{definition}
   Если $\exists!$ решение системы
@@ -641,7 +641,7 @@
 \begin{theorem}
   Асимптотическая нормальность ОММ.
 
-  Если в условиях предыдущей теоремы $m^{-1}$ дифференцируема на $m(\Theta)$ и $\forall i \leq k :\: \mathbb{E}_\theta g_i^2(X_1) < +\infty$. Тогда ОММ $\theta_n^*$ является асимптотически нормальной оценкой параметра $\theta$.
+  Если в условиях предыдущей теоремы $m^{-1}$ дифференцируема на $m(\Theta)$ и $\forall i \leq k :\: \mathbb{E}_\theta g_i^2(x) < +\infty$. Тогда ОММ $\theta_n^*$ является асимптотически нормальной оценкой параметра $\theta$.
 \end{theorem}
 
 \begin{proof}
@@ -703,7 +703,7 @@
 
   Откуда это взялось? Вспомним, как меняется плотность при линейном преобразовании:
   \[
-    p_{a\xi + b}(x) = F_{a\xi + b}'(x) = P'(a\xi + b \leq x) = P'(\xi \leq \frac{x - b}{a}) = F'_\xi(\frac{x - b}{a}) = \frac{1}{a}p_\xi(\frac{x - b}{a})
+    p_{a\xi + b}(x) = F_{a\xi + b}'(x) = P'(a\xi + b \leq x) = P'\left(\xi \leq \frac{x - b}{a}\right) = F'_\xi\left(\frac{x - b}{a}\right) = \frac{1}{a}p_\xi\left(\frac{x - b}{a}\right)
   \]
   Раскроем $p_{X_{(k)}}$ по формуле, которую получили в начале доказательства и разложим полученную плотность $\eta_n$ в следующее произведение:
   \[
@@ -772,7 +772,7 @@
 \end{definition}
 
 \begin{definition}
-  Если задана функция потерь $g$, то \textbf{функцией риска} оценки $\theta^*$ называется $R(\theta^*,\, \theta) = \mathbb{E}_\theta g(\theta^*(X),\, \theta)$
+  Если задана функция потерь $g$, то \textbf{функцией риска} оценки $\theta^*$ называется $R(\theta^*,\, \theta) = \mathbb{E}_\theta g(\theta^*(x),\, \theta)$
 \end{definition}
 
 \begin{definition}
@@ -914,7 +914,7 @@
   \]
   Умножим первое равенство на $-\tau(\theta)$ и сложим со вторым:
   \[
-    \tau'(\theta) = \mathbb{E}(\hat{\theta} - \tau(\theta))u_\theta(X)
+    \tau'(\theta) = \mathbb{E}(\hat{\theta}(X) - \tau(\theta))u_\theta(X)
   \]
   Возведём обе части в квадрат и применим КБШ:
   \[
@@ -1431,7 +1431,7 @@
 \end{theorem}
 
 \begin{definition}
-  Если $\sqrt{n}(\hat{\theta}_n(X_1,\,\cdots,\,X_n) - \theta) \overset{d_\theta}{\to} \mathcal{N}(0,\, \frac{1}{i(\theta)})$, то $\hat{\theta}_n$ называется \textbf{асимптотически эффективной} оценкой $\theta$.
+  Если $\sqrt{n}(\hat{\theta}_n(X_1,\,\cdots,\,X_n) - \theta) \overset{d_\theta}{\to} \mathcal{N}\left(0,\, \frac{1}{i(\theta)}\right)$, то $\hat{\theta}_n$ называется \textbf{асимптотически эффективной} оценкой $\theta$.
 \end{definition}
 
 \begin{proposition}
@@ -1515,14 +1515,14 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 
 \begin{lemma}
   \[
-    \mathbb{E}\|X - Z\theta\|^2 = (n - k)\sigma^2
+    \mathbb{E}\|X - Z\hat{\theta}\|^2 = (n - k)\sigma^2
   \]
 \end{lemma}
 
 \begin{proof}
   Так как $\mathbb{E}(X - Z\hat{\theta}) = 0$, то
   \[
-    \mathbb{E}\|X - Z\theta\|^2 = \text{tr}\mathbb{V}(X - Z\hat{\theta})
+    \mathbb{E}\|X - Z\hat{\theta}\|^2 = \text{tr}\mathbb{V}(X - Z\hat{\theta})
   \]
   Распишем ковариационную матрицу:
   \begin{align*}
@@ -1531,7 +1531,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \end{align*}
   Перейдём обратно к числам:
   \begin{align*}
-    \mathbb{E}\|X - Z\theta\|^2 = \sigma^2\text{tr}(I_n - A) = \sigma^2(\text{tr}I_n - \text{tr}A) =\\
+    \mathbb{E}\|X - Z\hat{\theta}\|^2 = \sigma^2\text{tr}(I_n - A) = \sigma^2(\text{tr}I_n - \text{tr}A) =\\
     \sigma^2(n -  \text{tr}I_k) = \sigma^2(n - k)
   \end{align*}
   В предпоследнем переходе воспользовались цикличностью следа:
@@ -1543,7 +1543,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{corollary}
   \begin{itemize}
     \item $X - Z\hat{\theta} = \text{proj}_{L^\bot}X$
-    \item $\frac{\|X - Z\theta\|^2}{n - k} = \frac{\|\text{proj}_{L^\bot}X\|^2}{n - k}$ -- несмещённая оценка $\sigma^2$.
+    \item $\frac{\|X - Z\hat{\theta}\|^2}{n - k} = \frac{\|\text{proj}_{L^\bot}X\|^2}{n - k}$ -- несмещённая оценка $\sigma^2$.
   \end{itemize}
 \end{corollary}
 
@@ -1626,7 +1626,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
       X - Z\hat{\theta} = \text{proj}_{L^\bot}X
     \end{cases}
   \]
-  Согласно теореме об ортогональном разложении гауссовские вектора $Z\hat{\theta},\, X - Z\hat{\theta}$ независимы, причём
+  Согласно теореме об ортогональном разложении (\ref{ORT_RAZL}) гауссовские вектора $Z\hat{\theta},\, X - Z\hat{\theta}$ независимы, причём
   \[
     \frac{1}{\sigma^2}\|Z\hat{\theta} - \mathbb{E}(Z\hat{\theta})\|^2 = \frac{1}{\sigma^2}\|Z\hat{\theta} - Z\theta\|^2 \sim \chi^2_k
   \]
@@ -1675,7 +1675,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \end{enumerate}
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{ORT_RAZL}
   Об ортогональном разложении. (б/д)
 
   Пусть $(X_1,\,\cdots,\,X_n) \sim \mathcal{N}(l,\,\sigma^2I_n)$ и $L_1,\,\cdots,\,L_r$ -- попарно ортогональные подпространства $\mathbb{R}^n$, причём 
@@ -1828,7 +1828,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \begin{proof}
   Заметим, что
   \begin{align*}
-    \mathbb{I}_R(p_1(X) - \lambda p_0(X)) \leq \mathbb{I}_R(X)(p_1(X) - \lambda p_0(X))\mathbb{I}_{\{x :\: p_1(X) - \lambda p_0(X) \geq 0\}}(X) =\\
+    \mathbb{I}_R(p_1(X) - \lambda p_0(X)) \leq \mathbb{I}_R(X)(p_1(X) - \lambda p_0(X))\mathbb{I}_{\{x :\: p_1(x) - \lambda p_0(x) \geq 0\}}(X) =\\
     \mathbb{I}_R(X)\mathbb{I}_{S_\lambda}(X)(p_1(X) - \lambda p_0(X)) \leq (p_1(X) - \lambda p_0(X))\mathbb{I}_{S_\lambda}(X)
   \end{align*}
   Следовательно
@@ -1901,7 +1901,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 \section{Проверка гипотез в гаусовской линейной модели}
 Цель: построить критерий для проверки линейной гипотезы $H_0 :\: T\theta = t$, где $T \in \mathbb{R}^{m \times k},\, t \in \mathbb{R}^m,\, \text{rk}T = m \leq k$.
 
-Знаем: $\hat{\theta} \sim \mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})$ и $\hat{t} = T\hat{\theta} \sim \mathcal{N}(T\theta,\, T\sigma^2(Z^TZ)^{-1}T) =: \mathcal{N}(T\theta,\, \sigma^2B)$.
+Знаем: $\hat{\theta} \sim \mathcal{N}(\theta,\, \sigma^2(Z^TZ)^{-1})$ и $\hat{t} = T\hat{\theta} \sim \mathcal{N}(T\theta,\, T\sigma^2(Z^TZ)^{-1}T^T) =: \mathcal{N}(T\theta,\, \sigma^2B)$.
 
 Заметим, что матрица $B$ положительно определена и симметрична, тогда
 \[
@@ -1923,7 +1923,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
 
 Значит в условиях $H_0$:
 \[
-  \frac{\hat{Q}_T}{\|X - Z\theta\|^2}\frac{n - k}{m} \sim F_{m,\,n - k}
+  \frac{\hat{Q}_T}{\|X - Z\hat{\theta}\|^2}\frac{n - k}{m} \sim F_{m,\,n - k}
 \]
 Теперь можем сформулировать \textbf{F-критерий}:
 \[
@@ -2115,7 +2115,7 @@ $L$ задано с помощью своего базиса $\{z_1,\,\cdots,\,z
   \[
     \text{cov}(\mathbb{I}\{X_j = a_i\},\, \mathbb{I}\{X_j = a_k\}) = \mathbb{E}\mathbb{I}\{X_j = a_i,\, X_j = a_k\} - p_i^0p_k^0 = \begin{cases}
       p_i^0 - (p_i^0)^2,\, i = k\\
-      -p_i^0p_j^0,\, i \neq k
+      -p_i^0p_k^0,\, i \neq k
     \end{cases}
   \]
   Положим
